@@ -115,12 +115,15 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
                               Navigator.of(sheetContext).pop(val),
                         ),
                       ),
-                      const Text(
-                        '.wakover.com',
-                        style: TextStyle(
-                          color: AppTheme.primaryBlue,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
+                      const Visibility(
+                        visible: false,
+                        child: Text(
+                          '.wakover.com',
+                          style: TextStyle(
+                            color: AppTheme.primaryBlue,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
                     ],

@@ -1,5 +1,12 @@
+@MappableLib(generateInitializerForScope: InitializerScope.package)
+library;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
+import 'package:dart_mappable/dart_mappable.dart';
+import 'package:wakover/common/network/provider/network_provider.dart';
+import 'package:wakover/common/providers/preferences_provider.dart';
 import 'providers/app_provider.dart';
 import 'theme/app_theme.dart';
 import 'common/screens/splash_screen.dart';
@@ -17,11 +24,26 @@ import 'shopper/screens/buyer_account_screen.dart';
 import 'shopper/screens/user_settings_screen.dart';
 import 'shopper/screens/coming_soon_screen.dart';
 
-void main() {
+import 'main.init.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  initializeMappers();
+
+  if (kReleaseMode) {
+    debugPrint = (String? message, {int? wrapWidth}) {};
+  }
+
+  final prefProvider = await PreferenceProvider.create();
+
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AppProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppProvider()),
+        Provider(create: (_) => NetworkProvider(prefProvider), lazy: false),
+        Provider.value(value: prefProvider),
+      ],
       child: const WakoverCommerceApp(),
     ),
   );
