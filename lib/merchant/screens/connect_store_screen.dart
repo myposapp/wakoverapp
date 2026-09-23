@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
 
 class ConnectStoreScreen extends StatefulWidget {
   const ConnectStoreScreen({super.key});
@@ -11,8 +11,9 @@ class ConnectStoreScreen extends StatefulWidget {
 }
 
 class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
-  final TextEditingController _domainController =
-      TextEditingController(text: 'apex-retail');
+  final TextEditingController _domainController = TextEditingController(
+    text: 'apex-retail',
+  );
   bool _isScanMode = false;
   bool _isLoading = false;
 
@@ -23,7 +24,8 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
         setState(() => _isLoading = false);
         context.read<AppProvider>().navigateTo('merchant_dashboard');
         context.read<AppProvider>().showToast(
-            'Connected to ${_domainController.text}.wakover.com merchant node.');
+          'Connected to ${_domainController.text}.wakover.com merchant node.',
+        );
       }
     });
   }
@@ -39,7 +41,10 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFE5EEFF),
                   borderRadius: BorderRadius.circular(20),
@@ -47,7 +52,11 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.store_rounded, size: 14, color: AppTheme.primaryBlue),
+                    Icon(
+                      Icons.store_rounded,
+                      size: 14,
+                      color: AppTheme.primaryBlue,
+                    ),
                     SizedBox(width: 4),
                     Text(
                       'MERCHANT PORTAL',
@@ -87,7 +96,9 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
-                            color: !_isScanMode ? Colors.white : Colors.transparent,
+                            color: !_isScanMode
+                                ? Colors.white
+                                : Colors.transparent,
                             borderRadius: BorderRadius.circular(24),
                             boxShadow: !_isScanMode
                                 ? [
@@ -101,7 +112,10 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                           child: const Center(
                             child: Text(
                               'Domain Address',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -113,7 +127,9 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
-                            color: _isScanMode ? Colors.white : Colors.transparent,
+                            color: _isScanMode
+                                ? Colors.white
+                                : Colors.transparent,
                             borderRadius: BorderRadius.circular(24),
                             boxShadow: _isScanMode
                                 ? [
@@ -127,7 +143,10 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                           child: const Center(
                             child: Text(
                               'Instant Scan',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -155,11 +174,18 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                         children: [
                           Text(
                             'Wakover Web Address',
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Row(
                             children: [
-                              Icon(Icons.lock_rounded, size: 12, color: AppTheme.primaryBlue),
+                              Icon(
+                                Icons.lock_rounded,
+                                size: 12,
+                                color: AppTheme.primaryBlue,
+                              ),
                               SizedBox(width: 4),
                               Text(
                                 '256-bit Encrypted',
@@ -184,7 +210,10 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                           children: [
                             const Text(
                               'https://',
-                              style: TextStyle(color: Colors.grey, fontSize: 13),
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 13,
+                              ),
                             ),
                             Expanded(
                               child: TextField(
@@ -196,8 +225,9 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   isDense: true,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 14),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
                                 ),
                               ),
                             ),
@@ -224,7 +254,10 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                             onPressed: () {
                               _domainController.text = 'apex-retail';
                             },
-                            child: const Text('Use Sample', style: TextStyle(fontSize: 11)),
+                            child: const Text(
+                              'Use Sample',
+                              style: TextStyle(fontSize: 11),
+                            ),
                           ),
                         ],
                       ),
@@ -281,8 +314,11 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                 ),
                 child: const Row(
                   children: [
-                    Icon(Icons.verified_user_rounded,
-                        color: AppTheme.primaryBlue, size: 28),
+                    Icon(
+                      Icons.verified_user_rounded,
+                      color: AppTheme.primaryBlue,
+                      size: 28,
+                    ),
                     SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -336,7 +372,9 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
                             Text(
                               'Verify & Sign In',
                               style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             SizedBox(width: 8),
                             Icon(Icons.arrow_forward_rounded, size: 18),

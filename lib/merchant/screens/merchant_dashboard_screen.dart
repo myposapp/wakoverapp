@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
-import '../widgets/custom_bottom_nav.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
+import '../widgets/bottom_nav.dart';
 
 class MerchantDashboardScreen extends StatelessWidget {
   const MerchantDashboardScreen({super.key});
@@ -24,8 +24,11 @@ class MerchantDashboardScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.storefront_rounded,
-                      size: 14, color: AppTheme.primaryBlue),
+                  const Icon(
+                    Icons.storefront_rounded,
+                    size: 14,
+                    color: AppTheme.primaryBlue,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     provider.activeDepot,
@@ -98,8 +101,11 @@ class MerchantDashboardScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(width: 4),
-                              Icon(Icons.verified_rounded,
-                                  size: 16, color: AppTheme.primaryBlue),
+                              Icon(
+                                Icons.verified_rounded,
+                                size: 16,
+                                color: AppTheme.primaryBlue,
+                              ),
                             ],
                           ),
                           SizedBox(height: 2),
@@ -124,12 +130,16 @@ class MerchantDashboardScreen extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton.icon(
-                      onPressed: () => provider.showToast('Live Pulse stream active.'),
+                      onPressed: () =>
+                          provider.showToast('Live Pulse stream active.'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFEFF4FF),
                         foregroundColor: AppTheme.primaryBlue,
                         elevation: 0,
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -137,7 +147,10 @@ class MerchantDashboardScreen extends StatelessWidget {
                       icon: const Icon(Icons.bolt_rounded, size: 16),
                       label: const Text(
                         'Live Pulse',
-                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
@@ -162,7 +175,9 @@ class MerchantDashboardScreen extends StatelessWidget {
                           onTap: () => provider.setActivePeriod(period),
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
                               color: isSel ? Colors.white : Colors.transparent,
                               borderRadius: BorderRadius.circular(16),
@@ -171,13 +186,16 @@ class MerchantDashboardScreen extends StatelessWidget {
                               period == 'today'
                                   ? 'Today'
                                   : period == '7d'
-                                      ? 'Last 7 Days'
-                                      : '30 Days',
+                                  ? 'Last 7 Days'
+                                  : '30 Days',
                               style: TextStyle(
                                 fontSize: 11,
-                                fontWeight:
-                                    isSel ? FontWeight.bold : FontWeight.w500,
-                                color: isSel ? AppTheme.navyDark : Colors.grey.shade700,
+                                fontWeight: isSel
+                                    ? FontWeight.bold
+                                    : FontWeight.w500,
+                                color: isSel
+                                    ? AppTheme.navyDark
+                                    : Colors.grey.shade700,
                               ),
                             ),
                           ),
@@ -186,7 +204,10 @@ class MerchantDashboardScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFDCE1FF),
                       borderRadius: BorderRadius.circular(16),
@@ -275,21 +296,32 @@ class MerchantDashboardScreen extends StatelessWidget {
                             Text(
                               'Store Velocity',
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Text(
                               'Daily Revenue & Footfall Traffic',
-                              style: TextStyle(fontSize: 11, color: Colors.grey),
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey,
+                              ),
                             ),
                           ],
                         ),
                         Row(
                           children: [
-                            CircleAvatar(radius: 4, backgroundColor: AppTheme.primaryBlue),
+                            CircleAvatar(
+                              radius: 4,
+                              backgroundColor: AppTheme.primaryBlue,
+                            ),
                             SizedBox(width: 4),
                             Text('Sales', style: TextStyle(fontSize: 10)),
                             SizedBox(width: 8),
-                            CircleAvatar(radius: 4, backgroundColor: Color(0xFFD3E4FE)),
+                            CircleAvatar(
+                              radius: 4,
+                              backgroundColor: Color(0xFFD3E4FE),
+                            ),
                             SizedBox(width: 4),
                             Text('Views', style: TextStyle(fontSize: 10)),
                           ],
@@ -335,14 +367,16 @@ class MerchantDashboardScreen extends StatelessWidget {
                     context,
                     label: 'Export CSV',
                     icon: Icons.download_rounded,
-                    onTap: () => provider.showToast('Exported Store Velocity as CSV.'),
+                    onTap: () =>
+                        provider.showToast('Exported Store Velocity as CSV.'),
                   ),
                   const SizedBox(width: 8),
                   _buildActionBtn(
                     context,
                     label: 'Settings',
                     icon: Icons.tune_rounded,
-                    onTap: () => provider.showToast('Opened Merchant settings.'),
+                    onTap: () =>
+                        provider.showToast('Opened Merchant settings.'),
                   ),
                 ],
               ),
@@ -357,8 +391,11 @@ class MerchantDashboardScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.lightbulb_outline_rounded,
-                        color: AppTheme.accentCyan, size: 24),
+                    const Icon(
+                      Icons.lightbulb_outline_rounded,
+                      color: AppTheme.accentCyan,
+                      size: 24,
+                    ),
                     const SizedBox(width: 12),
                     const Expanded(
                       child: Column(
@@ -374,7 +411,10 @@ class MerchantDashboardScreen extends StatelessWidget {
                           ),
                           Text(
                             "Restock 'Matrix Multiport Hub' to prevent an estimated \$740 revenue loss.",
-                            style: TextStyle(color: Colors.white70, fontSize: 11),
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 11,
+                            ),
                           ),
                         ],
                       ),
@@ -382,19 +422,29 @@ class MerchantDashboardScreen extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         final matrix = provider.products.firstWhere(
-                            (p) => p.sku == 'MX-1004',
-                            orElse: () => provider.products.first);
+                          (p) => p.sku == 'MX-1004',
+                          orElse: () => provider.products.first,
+                        );
                         _showStockModal(context, matrix);
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor: AppTheme.navyDark,
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
                       ),
-                      child: const Text('Restock', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'Restock',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -403,8 +453,9 @@ class MerchantDashboardScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar:
-          const MerchantBottomNavBar(activeRoute: 'merchant_dashboard'),
+      bottomNavigationBar: const MerchantBottomNavBar(
+        activeRoute: 'merchant_dashboard',
+      ),
     );
   }
 
@@ -453,11 +504,18 @@ class MerchantDashboardScreen extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(fontSize: 9, color: Colors.grey, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 9,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Text(
                 value,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -470,8 +528,12 @@ class MerchantDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildChartBar(String day, double heightView, double heightSale,
-      {bool isPeak = false}) {
+  Widget _buildChartBar(
+    String day,
+    double heightView,
+    double heightSale, {
+    bool isPeak = false,
+  }) {
     return Column(
       children: [
         if (isPeak)
@@ -483,7 +545,11 @@ class MerchantDashboardScreen extends StatelessWidget {
             ),
             child: const Text(
               '\$2,840',
-              style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 8,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         const SizedBox(height: 4),
@@ -544,7 +610,10 @@ class MerchantDashboardScreen extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 label,
-                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -568,18 +637,29 @@ class MerchantDashboardScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(product.name,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                product.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
                     icon: const Icon(Icons.remove_circle_outline),
-                    onPressed: () => setState(() => qty = (qty > 0 ? qty - 1 : 0)),
+                    onPressed: () =>
+                        setState(() => qty = (qty > 0 ? qty - 1 : 0)),
                   ),
-                  Text('$qty units',
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  Text(
+                    '$qty units',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   IconButton(
                     icon: const Icon(Icons.add_circle_outline),
                     onPressed: () => setState(() => qty++),
@@ -591,7 +671,10 @@ class MerchantDashboardScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<AppProvider>().updateProductStock(product.id, qty);
+                    context.read<AppProvider>().updateProductStock(
+                      product.id,
+                      qty,
+                    );
                     Navigator.pop(context);
                   },
                   child: const Text('Save Stock Levels'),

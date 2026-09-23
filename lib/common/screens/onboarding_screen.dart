@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -84,7 +84,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         // Slide badge
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 6),
+                            horizontal: 14,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFEFF4FF),
                             borderRadius: BorderRadius.circular(20),

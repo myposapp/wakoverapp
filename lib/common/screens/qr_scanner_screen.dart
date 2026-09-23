@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import '../theme/app_theme.dart';
+import '../../theme/app_theme.dart';
 
 class QrScannerScreen extends StatefulWidget {
   const QrScannerScreen({super.key});

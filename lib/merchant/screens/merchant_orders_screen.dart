@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
-import '../models/order.dart';
-import '../widgets/custom_bottom_nav.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../models/order.dart';
+import '../widgets/bottom_nav.dart';
 
 class MerchantOrdersScreen extends StatelessWidget {
   const MerchantOrdersScreen({super.key});
@@ -45,7 +45,11 @@ class MerchantOrdersScreen extends StatelessWidget {
                       children: [
                         const Row(
                           children: [
-                            Icon(Icons.shield_rounded, color: AppTheme.accentCyan, size: 18),
+                            Icon(
+                              Icons.shield_rounded,
+                              color: AppTheme.accentCyan,
+                              size: 18,
+                            ),
                             SizedBox(width: 6),
                             Text(
                               'ESCROW SETTLEMENT',
@@ -58,7 +62,10 @@ class MerchantOrdersScreen extends StatelessWidget {
                           ],
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white12,
                             borderRadius: BorderRadius.circular(10),
@@ -110,8 +117,9 @@ class MerchantOrdersScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar:
-          const MerchantBottomNavBar(activeRoute: 'merchant_orders'),
+      bottomNavigationBar: const MerchantBottomNavBar(
+        activeRoute: 'merchant_orders',
+      ),
     );
   }
 
@@ -178,7 +186,10 @@ class MerchantOrdersScreen extends StatelessWidget {
               if (order.trackingNumber != null)
                 Text(
                   'Track: ${order.trackingNumber}',
-                  style: const TextStyle(fontSize: 11, color: AppTheme.primaryBlue),
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: AppTheme.primaryBlue,
+                  ),
                 )
               else
                 const Text(
@@ -189,13 +200,22 @@ class MerchantOrdersScreen extends StatelessWidget {
               if (order.status == 'processing')
                 ElevatedButton(
                   onPressed: () {
-                    provider.updateOrderStatus(order.id, 'shipped', 'US-${DateTime.now().millisecond}');
-                    provider.showToast('Order ${order.id} marked as dispatched.');
+                    provider.updateOrderStatus(
+                      order.id,
+                      'shipped',
+                      'US-${DateTime.now().millisecond}',
+                    );
+                    provider.showToast(
+                      'Order ${order.id} marked as dispatched.',
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.navyDark,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 6,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
-import '../models/campaign.dart';
-import '../widgets/custom_bottom_nav.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../models/campaign.dart';
+import '../widgets/bottom_nav.dart';
 
 class MerchantCampaignsScreen extends StatelessWidget {
   const MerchantCampaignsScreen({super.key});
@@ -18,7 +18,8 @@ class MerchantCampaignsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add_circle_outline_rounded),
-            onPressed: () => provider.showToast('Create Promo Campaign launched.'),
+            onPressed: () =>
+                provider.showToast('Create Promo Campaign launched.'),
           ),
         ],
       ),
@@ -37,8 +38,11 @@ class MerchantCampaignsScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.bolt_rounded,
-                        size: 32, color: AppTheme.primaryBlue),
+                    const Icon(
+                      Icons.bolt_rounded,
+                      size: 32,
+                      color: AppTheme.primaryBlue,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -54,7 +58,10 @@ class MerchantCampaignsScreen extends StatelessWidget {
                           ),
                           Text(
                             'Coupon codes apply at checkout across all verified Wakover customer sessions.',
-                            style: TextStyle(fontSize: 11, color: Colors.grey.shade700),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey.shade700,
+                            ),
                           ),
                         ],
                       ),
@@ -84,8 +91,9 @@ class MerchantCampaignsScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar:
-          const MerchantBottomNavBar(activeRoute: 'merchant_campaigns'),
+      bottomNavigationBar: const MerchantBottomNavBar(
+        activeRoute: 'merchant_campaigns',
+      ),
     );
   }
 
@@ -132,7 +140,10 @@ class MerchantCampaignsScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: AppTheme.navyDark,
                         borderRadius: BorderRadius.circular(6),
@@ -151,7 +162,10 @@ class MerchantCampaignsScreen extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   campaign.title,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 Text(
                   '${campaign.usedCount} used • ${campaign.duration}',

@@ -2,28 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/app_provider.dart';
 import 'theme/app_theme.dart';
-import 'screens/splash_screen.dart';
-import 'screens/onboarding_screen.dart';
-import 'screens/role_select_screen.dart';
-import 'screens/connect_store_screen.dart';
-import 'screens/merchant_dashboard_screen.dart';
-import 'screens/merchant_inventory_screen.dart';
-import 'screens/merchant_orders_screen.dart';
-import 'screens/merchant_campaigns_screen.dart';
-import 'screens/buyer_marketplace_screen.dart';
-import 'screens/buyer_storefront_screen.dart';
-import 'screens/buyer_hub_screen.dart';
-import 'screens/buyer_account_screen.dart';
-import 'screens/user_settings_screen.dart';
-import 'screens/coming_soon_screen.dart';
+import 'common/screens/splash_screen.dart';
+import 'common/screens/onboarding_screen.dart';
+import 'common/screens/role_select_screen.dart';
+import 'merchant/screens/connect_store_screen.dart';
+import 'merchant/screens/merchant_dashboard_screen.dart';
+import 'merchant/screens/merchant_inventory_screen.dart';
+import 'merchant/screens/merchant_orders_screen.dart';
+import 'merchant/screens/merchant_campaigns_screen.dart';
+import 'shopper/screens/buyer_marketplace_screen.dart';
+import 'shopper/screens/buyer_storefront_screen.dart';
+import 'shopper/screens/buyer_hub_screen.dart';
+import 'shopper/screens/buyer_account_screen.dart';
+import 'shopper/screens/user_settings_screen.dart';
+import 'shopper/screens/coming_soon_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AppProvider()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => AppProvider())],
       child: const WakoverCommerceApp(),
     ),
   );
@@ -88,11 +86,16 @@ class WakoverCommerceApp extends StatelessWidget {
                     color: AppTheme.navyDark,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
                       child: Row(
                         children: [
-                          const Icon(Icons.check_circle_rounded,
-                              color: AppTheme.accentCyan, size: 20),
+                          const Icon(
+                            Icons.check_circle_rounded,
+                            color: AppTheme.accentCyan,
+                            size: 20,
+                          ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
@@ -128,18 +131,20 @@ class WakoverCommerceApp extends StatelessWidget {
         return const ConnectStoreScreen(key: ValueKey('connect_store'));
       case 'merchant_dashboard':
         return const MerchantDashboardScreen(
-            key: ValueKey('merchant_dashboard'));
+          key: ValueKey('merchant_dashboard'),
+        );
       case 'merchant_inventory':
         return const MerchantInventoryScreen(
-            key: ValueKey('merchant_inventory'));
+          key: ValueKey('merchant_inventory'),
+        );
       case 'merchant_orders':
         return const MerchantOrdersScreen(key: ValueKey('merchant_orders'));
       case 'merchant_campaigns':
         return const MerchantCampaignsScreen(
-            key: ValueKey('merchant_campaigns'));
+          key: ValueKey('merchant_campaigns'),
+        );
       case 'buyer_marketplace':
-        return const BuyerMarketplaceScreen(
-            key: ValueKey('buyer_marketplace'));
+        return const BuyerMarketplaceScreen(key: ValueKey('buyer_marketplace'));
       case 'buyer_storefront':
         return const BuyerStorefrontScreen(key: ValueKey('buyer_storefront'));
       case 'buyer_hub':

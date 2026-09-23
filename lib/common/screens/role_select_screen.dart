@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
 
 class RoleSelectScreen extends StatefulWidget {
   const RoleSelectScreen({super.key});
@@ -26,9 +26,7 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Wakover'),
-      ),
+      appBar: AppBar(title: const Text('Wakover')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -37,7 +35,10 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
             children: [
               // Step Badge
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFDCE9FF),
                   borderRadius: BorderRadius.circular(20),
@@ -45,7 +46,11 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.auto_awesome, size: 12, color: AppTheme.primaryBlue),
+                    Icon(
+                      Icons.auto_awesome,
+                      size: 12,
+                      color: AppTheme.primaryBlue,
+                    ),
                     SizedBox(width: 4),
                     Text(
                       'STEP 1 OF 3 • WELCOME',
@@ -81,7 +86,8 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
                 role: UserRole.buyer,
                 tag: 'DISCOVER & BUY',
                 title: 'I am a Shopper / Buyer',
-                subtitle: 'Discover unique local brands and track consumer orders seamlessly.',
+                subtitle:
+                    'Discover unique local brands and track consumer orders seamlessly.',
                 icon: Icons.shopping_bag_outlined,
                 bullets: [
                   'Direct retail marketplace & brand discovery',
@@ -97,7 +103,8 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
                 role: UserRole.merchant,
                 tag: 'SELL & MANAGE',
                 title: 'I am a Business / Merchant',
-                subtitle: 'Turn store inventory into high-conversion digital commerce.',
+                subtitle:
+                    'Turn store inventory into high-conversion digital commerce.',
                 icon: Icons.storefront_rounded,
                 bullets: [
                   'Automated inventory & multi-tier pricing',
@@ -126,7 +133,10 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
                     children: [
                       Text(
                         'Continue to Setup',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(width: 8),
                       Icon(Icons.arrow_forward_rounded, size: 18),
@@ -162,10 +172,14 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFDCE9FF).withOpacity(0.5) : Theme.of(context).cardColor,
+          color: isSelected
+              ? const Color(0xFFDCE9FF).withOpacity(0.5)
+              : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? AppTheme.primaryBlue : Colors.black.withOpacity(0.06),
+            color: isSelected
+                ? AppTheme.primaryBlue
+                : Colors.black.withOpacity(0.06),
             width: isSelected ? 2 : 1,
           ),
           boxShadow: isSelected
@@ -198,7 +212,10 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: AppTheme.navyDark,
                           borderRadius: BorderRadius.circular(4),
@@ -230,7 +247,9 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
                     shape: BoxShape.circle,
                     color: isSelected ? AppTheme.navyDark : Colors.transparent,
                     border: Border.all(
-                      color: isSelected ? AppTheme.navyDark : Colors.grey.shade400,
+                      color: isSelected
+                          ? AppTheme.navyDark
+                          : Colors.grey.shade400,
                     ),
                   ),
                   child: isSelected
@@ -260,8 +279,11 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 3.0),
                         child: Row(
                           children: [
-                            const Icon(Icons.check_circle_outline,
-                                size: 14, color: AppTheme.primaryBlue),
+                            const Icon(
+                              Icons.check_circle_outline,
+                              size: 14,
+                              color: AppTheme.primaryBlue,
+                            ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(

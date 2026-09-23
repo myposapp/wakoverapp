@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
-import '../models/store_hub.dart';
-import 'qr_scanner_screen.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../models/store_hub.dart';
+import '../../common/screens/qr_scanner_screen.dart';
 
 class BuyerMarketplaceScreen extends StatefulWidget {
   const BuyerMarketplaceScreen({super.key});
 
   @override
-  State<BuyerMarketplaceScreen> createState() =>
-      _BuyerMarketplaceScreenState();
+  State<BuyerMarketplaceScreen> createState() => _BuyerMarketplaceScreenState();
 }
 
 class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
@@ -37,7 +36,8 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
     if (stores.isEmpty) return null;
     final q = query.trim().toLowerCase();
     for (final s in stores) {
-      if (s.handle.toLowerCase().contains(q) || q.contains(s.handle.toLowerCase())) {
+      if (s.handle.toLowerCase().contains(q) ||
+          q.contains(s.handle.toLowerCase())) {
         return s;
       }
     }
@@ -45,9 +45,9 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
   }
 
   Future<void> _onScanQr() async {
-    final result = await Navigator.of(context).push<String>(
-      MaterialPageRoute(builder: (_) => const QrScannerScreen()),
-    );
+    final result = await Navigator.of(
+      context,
+    ).push<String>(MaterialPageRoute(builder: (_) => const QrScannerScreen()));
     if (!mounted || result == null || result.isEmpty) return;
     final provider = context.read<AppProvider>();
     final store = _matchStore(result, provider.stores);
@@ -198,8 +198,11 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.search_rounded,
-                        size: 20, color: Colors.grey),
+                    const Icon(
+                      Icons.search_rounded,
+                      size: 20,
+                      color: Colors.grey,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
@@ -219,8 +222,11 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
                           _searchController.clear();
                           setState(() => _query = '');
                         },
-                        child: const Icon(Icons.close_rounded,
-                            size: 18, color: Colors.grey),
+                        child: const Icon(
+                          Icons.close_rounded,
+                          size: 18,
+                          color: Colors.grey,
+                        ),
                       ),
                   ],
                 ),
@@ -340,7 +346,10 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
                     child: Text(
                       'Start typing to discover verified merchant hubs.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade500,
+                      ),
                     ),
                   ),
                 )
@@ -351,7 +360,10 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
                     child: Text(
                       'No verified stores match "$_query".',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade500,
+                      ),
                     ),
                   ),
                 )

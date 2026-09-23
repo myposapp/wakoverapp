@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
-import '../models/product.dart';
-import '../widgets/custom_bottom_nav.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../models/product.dart';
+import '../widgets/bottom_nav.dart';
 
 class MerchantInventoryScreen extends StatelessWidget {
   const MerchantInventoryScreen({super.key});
@@ -54,7 +54,11 @@ class MerchantInventoryScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.search_rounded, size: 20, color: Colors.grey),
+                    const Icon(
+                      Icons.search_rounded,
+                      size: 20,
+                      color: Colors.grey,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
@@ -104,8 +108,9 @@ class MerchantInventoryScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar:
-          const MerchantBottomNavBar(activeRoute: 'merchant_inventory'),
+      bottomNavigationBar: const MerchantBottomNavBar(
+        activeRoute: 'merchant_inventory',
+      ),
     );
   }
 
@@ -134,8 +139,8 @@ class MerchantInventoryScreen extends StatelessWidget {
     final badgeColor = isOut
         ? Colors.red
         : isLow
-            ? Colors.orange
-            : Colors.green;
+        ? Colors.orange
+        : Colors.green;
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -164,7 +169,10 @@ class MerchantInventoryScreen extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: badgeColor.withOpacity(0.12),
                         borderRadius: BorderRadius.circular(6),
@@ -194,7 +202,10 @@ class MerchantInventoryScreen extends StatelessWidget {
                   product.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
@@ -205,7 +216,10 @@ class MerchantInventoryScreen extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.edit_note_rounded, color: AppTheme.primaryBlue),
+            icon: const Icon(
+              Icons.edit_note_rounded,
+              color: AppTheme.primaryBlue,
+            ),
             onPressed: () => _showStockAdjustSheet(context, product),
           ),
         ],
@@ -229,20 +243,31 @@ class MerchantInventoryScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Adjust Stock: ${product.name}',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              Text(
+                'Adjust Stock: ${product.name}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
                     icon: const Icon(Icons.remove_circle, size: 32),
-                    onPressed: () => setState(() => current = current > 0 ? current - 1 : 0),
+                    onPressed: () =>
+                        setState(() => current = current > 0 ? current - 1 : 0),
                   ),
                   const SizedBox(width: 16),
-                  Text('$current',
-                      style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+                  Text(
+                    '$current',
+                    style: const TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(width: 16),
                   IconButton(
                     icon: const Icon(Icons.add_circle, size: 32),
@@ -256,7 +281,10 @@ class MerchantInventoryScreen extends StatelessWidget {
                 height: 48,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<AppProvider>().updateProductStock(product.id, current);
+                    context.read<AppProvider>().updateProductStock(
+                      product.id,
+                      current,
+                    );
                     Navigator.pop(context);
                   },
                   child: const Text('Confirm Inventory Level'),

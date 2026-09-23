@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
 
 class UserSettingsScreen extends StatefulWidget {
   const UserSettingsScreen({super.key});
@@ -130,7 +130,10 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                         children: [
                           Text(
                             'Show Campaigns',
-                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           SizedBox(height: 2),
                           Text(
@@ -146,7 +149,9 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                       onChanged: (val) {
                         setState(() => _showCampaigns = val);
                         provider.showToast(
-                          val ? 'Campaigns are now visible.' : 'Campaigns are now hidden.',
+                          val
+                              ? 'Campaigns are now visible.'
+                              : 'Campaigns are now hidden.',
                         );
                       },
                     ),
@@ -169,7 +174,9 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          store != null && store.name.isNotEmpty ? store.name[0] : 'W',
+                          store != null && store.name.isNotEmpty
+                              ? store.name[0]
+                              : 'W',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -187,18 +194,29 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                             store?.name ?? 'No marketplace selected',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
-                            store != null ? 'Currently connected vault' : 'Connect to a merchant vault',
-                            style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                            store != null
+                                ? 'Currently connected vault'
+                                : 'Connect to a merchant vault',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey.shade600,
+                            ),
                           ),
                         ],
                       ),
                     ),
                     TextButton(
                       onPressed: () => provider.navigateTo('buyer_marketplace'),
-                      child: const Text('Change', style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'Change',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
@@ -231,8 +249,9 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 ),
                 const SizedBox(height: 6),
                 DottedUploadBox(
-                  onTap: () =>
-                      provider.showToast('Document upload is not available yet.'),
+                  onTap: () => provider.showToast(
+                    'Document upload is not available yet.',
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Text(
@@ -280,7 +299,10 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: Colors.black.withOpacity(0.06)),
         ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: children),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: children,
+        ),
       ),
     );
   }
@@ -293,7 +315,10 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 6),
         Builder(
           builder: (context) => Container(
@@ -309,7 +334,10 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 isDense: true,
-                contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 13,
+                ),
               ),
             ),
           ),
@@ -327,7 +355,10 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 6),
         Builder(
           builder: (context) => Container(
@@ -343,10 +374,15 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 13,
+                ),
                 suffixIcon: IconButton(
                   icon: Icon(
-                    obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                    obscure
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
                     size: 18,
                     color: Colors.grey,
                   ),
@@ -369,7 +405,9 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.navyDark,
           foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
         ),
         child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
@@ -406,7 +444,11 @@ class DottedUploadBox extends StatelessWidget {
               SizedBox(height: 6),
               Text(
                 'Tap to upload a file',
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.navyDark),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.navyDark,
+                ),
               ),
             ],
           ),
@@ -424,8 +466,10 @@ class _OtpSheet extends StatefulWidget {
 }
 
 class _OtpSheetState extends State<_OtpSheet> {
-  final List<TextEditingController> _controllers =
-      List.generate(6, (_) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
   final List<FocusNode> _nodes = List.generate(6, (_) => FocusNode());
   String? _error;
 
@@ -460,7 +504,9 @@ class _OtpSheetState extends State<_OtpSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Container(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
         decoration: const BoxDecoration(
@@ -487,7 +533,11 @@ class _OtpSheetState extends State<_OtpSheet> {
                 color: Color(0xFFEFF4FF),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.sms_outlined, color: AppTheme.primaryBlue, size: 26),
+              child: const Icon(
+                Icons.sms_outlined,
+                color: AppTheme.primaryBlue,
+                size: 26,
+              ),
             ),
             const SizedBox(height: 14),
             const Text(
@@ -498,7 +548,11 @@ class _OtpSheetState extends State<_OtpSheet> {
             Text(
               'Enter the 6-digit code sent to your registered phone number to confirm this password change.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600, height: 1.4),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade600,
+                height: 1.4,
+              ),
             ),
             const SizedBox(height: 22),
             Row(
@@ -513,7 +567,10 @@ class _OtpSheetState extends State<_OtpSheet> {
                     textAlign: TextAlign.center,
                     maxLength: 1,
                     keyboardType: TextInputType.number,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                     decoration: InputDecoration(
                       counterText: '',
                       filled: true,
@@ -530,7 +587,10 @@ class _OtpSheetState extends State<_OtpSheet> {
             ),
             if (_error != null) ...[
               const SizedBox(height: 8),
-              Text(_error!, style: TextStyle(fontSize: 11, color: Colors.red.shade600)),
+              Text(
+                _error!,
+                style: TextStyle(fontSize: 11, color: Colors.red.shade600),
+              ),
             ],
             const SizedBox(height: 22),
             SizedBox(
@@ -541,18 +601,25 @@ class _OtpSheetState extends State<_OtpSheet> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.navyDark,
                   foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                 ),
-                child: const Text('Verify & Update Password',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text(
+                  'Verify & Update Password',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             const SizedBox(height: 10),
             TextButton(
-              onPressed: () => context
-                  .read<AppProvider>()
-                  .showToast('OTP resent to your registered number.'),
-              child: const Text('Resend Code', style: TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () => context.read<AppProvider>().showToast(
+                'OTP resent to your registered number.',
+              ),
+              child: const Text(
+                'Resend Code',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),

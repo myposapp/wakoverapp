@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
-import '../widgets/custom_bottom_nav.dart';
+import 'package:wakover/shopper/widgets/bottom_nav_bar.dart';
+import 'package:wakover/shopper/widgets/cart.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
 
 class _HubAction {
   final String label;
@@ -170,7 +171,7 @@ class BuyerHubScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.black.withOpacity(0.06)),
+          border: Border.all(color: Colors.black.withValues(alpha: .06)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
-import '../models/product.dart';
-import '../models/store_hub.dart';
-import '../widgets/custom_bottom_nav.dart';
+import 'package:wakover/shopper/widgets/bottom_nav_bar.dart';
+import 'package:wakover/shopper/widgets/cart.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
+import '../../models/product.dart';
+import '../../models/store_hub.dart';
 
 class BuyerStorefrontScreen extends StatelessWidget {
   const BuyerStorefrontScreen({super.key});
@@ -12,17 +13,17 @@ class BuyerStorefrontScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<AppProvider>();
-    final store = provider.selectedStore ??
+    final store =
+        provider.selectedStore ??
         (provider.stores.isNotEmpty ? provider.stores.first : null);
 
     if (store == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Storefront')),
-        body: const Center(
-          child: Text('No merchant vault selected yet.'),
+        body: const Center(child: Text('No merchant vault selected yet.')),
+        bottomNavigationBar: const BuyerBottomNavBar(
+          activeRoute: 'buyer_storefront',
         ),
-        bottomNavigationBar:
-            const BuyerBottomNavBar(activeRoute: 'buyer_storefront'),
       );
     }
 
@@ -44,7 +45,10 @@ class BuyerStorefrontScreen extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 store.handle,
-                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -86,7 +90,10 @@ class BuyerStorefrontScreen extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.stars_rounded, color: AppTheme.primaryBlue),
+                          const Icon(
+                            Icons.stars_rounded,
+                            color: AppTheme.primaryBlue,
+                          ),
                           const SizedBox(width: 10),
                           const Expanded(
                             child: Column(
@@ -102,14 +109,21 @@ class BuyerStorefrontScreen extends StatelessWidget {
                                 ),
                                 Text(
                                   'Use code FLASH20 at checkout',
-                                  style: TextStyle(fontSize: 10, color: AppTheme.primaryBlue),
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: AppTheme.primaryBlue,
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                           TextButton(
-                            onPressed: () => provider.showToast('Coupon FLASH20 applied!'),
-                            child: const Text('Apply', style: TextStyle(fontWeight: FontWeight.bold)),
+                            onPressed: () =>
+                                provider.showToast('Coupon FLASH20 applied!'),
+                            child: const Text(
+                              'Apply',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ],
                       ),
@@ -121,12 +135,13 @@ class BuyerStorefrontScreen extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: filteredProducts.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 0.68,
-                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 0.68,
+                          ),
                       itemBuilder: (context, idx) {
                         final product = filteredProducts[idx];
                         return _buildProductCard(context, product);
@@ -139,12 +154,17 @@ class BuyerStorefrontScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar:
-          const BuyerBottomNavBar(activeRoute: 'buyer_storefront'),
+      bottomNavigationBar: const BuyerBottomNavBar(
+        activeRoute: 'buyer_storefront',
+      ),
     );
   }
 
-  Widget _buildHeader(BuildContext context, AppProvider provider, StoreHub store) {
+  Widget _buildHeader(
+    BuildContext context,
+    AppProvider provider,
+    StoreHub store,
+  ) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
       child: Column(
@@ -177,7 +197,7 @@ class BuyerStorefrontScreen extends StatelessWidget {
                         child: Text(
                           store.name.isNotEmpty ? store.name[0] : 'W',
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.08),
+                            color: Colors.white.withValues(alpha: .08),
                             fontSize: 96,
                             fontWeight: FontWeight.w900,
                           ),
@@ -188,7 +208,10 @@ class BuyerStorefrontScreen extends StatelessWidget {
                       top: 12,
                       left: 12,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white12,
                           borderRadius: BorderRadius.circular(12),
@@ -208,8 +231,9 @@ class BuyerStorefrontScreen extends StatelessWidget {
                       right: 8,
                       child: _CircleIconButton(
                         icon: Icons.share_outlined,
-                        onTap: () =>
-                            provider.showToast('Copied direct storefront link.'),
+                        onTap: () => provider.showToast(
+                          'Copied direct storefront link.',
+                        ),
                       ),
                     ),
                   ],
@@ -254,12 +278,19 @@ class BuyerStorefrontScreen extends StatelessWidget {
               Flexible(
                 child: Text(
                   store.name,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               if (store.isVerified) ...[
                 const SizedBox(width: 4),
-                const Icon(Icons.verified_rounded, size: 18, color: AppTheme.primaryBlue),
+                const Icon(
+                  Icons.verified_rounded,
+                  size: 18,
+                  color: AppTheme.primaryBlue,
+                ),
               ],
             ],
           ),
@@ -271,7 +302,11 @@ class BuyerStorefrontScreen extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             store.description,
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade700, height: 1.4),
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey.shade700,
+              height: 1.4,
+            ),
           ),
           const SizedBox(height: 14),
 
@@ -296,11 +331,7 @@ class BuyerStorefrontScreen extends StatelessWidget {
                   'Seller Status',
                 ),
                 const _StatDivider(),
-                _buildStat(
-                  Icons.category_rounded,
-                  store.category,
-                  'Category',
-                ),
+                _buildStat(Icons.category_rounded, store.category, 'Category'),
               ],
             ),
           ),
@@ -342,7 +373,7 @@ class BuyerStorefrontScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.black.withOpacity(0.06)),
+        border: Border.all(color: Colors.black.withValues(alpha: .06)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,7 +415,10 @@ class BuyerStorefrontScreen extends StatelessWidget {
                   bottom: 4,
                   left: 4,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black87,
                       borderRadius: BorderRadius.circular(6),
@@ -407,14 +441,20 @@ class BuyerStorefrontScreen extends StatelessWidget {
                 product.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 2),
               Row(
                 children: [
                   Text(
                     '\$${product.price.toStringAsFixed(2)}',
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   if (product.originalPrice != null) ...[
                     const SizedBox(width: 4),
@@ -439,7 +479,9 @@ class BuyerStorefrontScreen extends StatelessWidget {
             child: ElevatedButton(
               onPressed: isSoldOut ? null : () => provider.addToCart(product),
               style: ElevatedButton.styleFrom(
-                backgroundColor: isSoldOut ? Colors.grey.shade200 : AppTheme.navyDark,
+                backgroundColor: isSoldOut
+                    ? Colors.grey.shade200
+                    : AppTheme.navyDark,
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
@@ -448,7 +490,10 @@ class BuyerStorefrontScreen extends StatelessWidget {
               ),
               child: Text(
                 isSoldOut ? 'Sold Out' : 'Add to Bag',
-                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -498,7 +543,7 @@ class _StatDivider extends StatelessWidget {
     return Container(
       width: 1,
       height: 30,
-      color: Colors.black.withOpacity(0.08),
+      color: Colors.black.withValues(alpha: 0.08),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
-import '../widgets/custom_bottom_nav.dart';
+import 'package:wakover/shopper/widgets/bottom_nav_bar.dart';
+import '../../theme/app_theme.dart';
 
 class ComingSoonScreen extends StatelessWidget {
   final String activeRoute;
@@ -38,7 +38,10 @@ class ComingSoonScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.navyDark,
                     borderRadius: BorderRadius.circular(20),
@@ -56,13 +59,20 @@ class ComingSoonScreen extends StatelessWidget {
                 const SizedBox(height: 14),
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   subtitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 13, color: Colors.grey.shade600, height: 1.4),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.grey.shade600,
+                    height: 1.4,
+                  ),
                 ),
               ],
             ),

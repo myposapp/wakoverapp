@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/app_provider.dart';
-import '../theme/app_theme.dart';
-import '../widgets/custom_bottom_nav.dart';
+import 'package:wakover/shopper/widgets/bottom_nav_bar.dart';
+import '../../providers/app_provider.dart';
+import '../../theme/app_theme.dart';
 
 class BuyerAccountScreen extends StatelessWidget {
   const BuyerAccountScreen({super.key});
@@ -40,7 +40,9 @@ class BuyerAccountScreen extends StatelessWidget {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: () => provider.showToast('Profile editing is not available yet.'),
+                  onTap: () => provider.showToast(
+                    'Profile editing is not available yet.',
+                  ),
                   child: Row(
                     children: [
                       Container(
@@ -87,7 +89,10 @@ class BuyerAccountScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Icon(Icons.chevron_right_rounded, color: Colors.white70),
+                      const Icon(
+                        Icons.chevron_right_rounded,
+                        color: Colors.white70,
+                      ),
                     ],
                   ),
                 ),
@@ -100,12 +105,14 @@ class BuyerAccountScreen extends StatelessWidget {
                 _ProfileTile(
                   icon: Icons.location_on_outlined,
                   label: 'Address',
-                  onTap: () => provider.showToast('Address is not available yet.'),
+                  onTap: () =>
+                      provider.showToast('Address is not available yet.'),
                 ),
                 _ProfileTile(
                   icon: Icons.confirmation_num_outlined,
                   label: 'My Vouchers',
-                  onTap: () => provider.showToast('My Vouchers is not available yet.'),
+                  onTap: () =>
+                      provider.showToast('My Vouchers is not available yet.'),
                 ),
               ]),
               const SizedBox(height: 20),
@@ -116,7 +123,8 @@ class BuyerAccountScreen extends StatelessWidget {
                 _ProfileTile(
                   icon: Icons.notifications_none_rounded,
                   label: 'Notifications',
-                  onTap: () => provider.showToast('Notifications is not available yet.'),
+                  onTap: () =>
+                      provider.showToast('Notifications is not available yet.'),
                 ),
                 _ProfileTile(
                   icon: Icons.settings_outlined,
@@ -126,12 +134,15 @@ class BuyerAccountScreen extends StatelessWidget {
                 _ProfileTile(
                   icon: Icons.person_add_alt_1_outlined,
                   label: 'Invite Friends',
-                  onTap: () => provider.showToast('Invite Friends is not available yet.'),
+                  onTap: () => provider.showToast(
+                    'Invite Friends is not available yet.',
+                  ),
                 ),
                 _ProfileTile(
                   icon: Icons.headset_mic_outlined,
                   label: 'Support',
-                  onTap: () => provider.showToast('Support is not available yet.'),
+                  onTap: () =>
+                      provider.showToast('Support is not available yet.'),
                 ),
               ]),
               const SizedBox(height: 20),
@@ -155,7 +166,9 @@ class BuyerAccountScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const BuyerBottomNavBar(activeRoute: 'buyer_account'),
+      bottomNavigationBar: const BuyerBottomNavBar(
+        activeRoute: 'buyer_account',
+      ),
     );
   }
 
@@ -179,14 +192,18 @@ class BuyerAccountScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.black.withOpacity(0.06)),
+        border: Border.all(color: Colors.black.withValues(alpha: 0.06)),
       ),
       child: Column(
         children: [
           for (int i = 0; i < tiles.length; i++) ...[
             tiles[i],
             if (i != tiles.length - 1)
-              Divider(height: 1, indent: 62, color: Colors.black.withOpacity(0.06)),
+              Divider(
+                height: 1,
+                indent: 62,
+                color: Colors.black.withValues(alpha: .06),
+              ),
           ],
         ],
       ),
@@ -199,7 +216,9 @@ class BuyerAccountScreen extends StatelessWidget {
       builder: (dialogContext) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text('Log out?'),
-        content: const Text('You\'ll need to select your role again to continue.'),
+        content: const Text(
+          'You\'ll need to select your role again to continue.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
@@ -280,7 +299,9 @@ class _ProfileTile extends StatelessWidget {
               width: 34,
               height: 34,
               decoration: BoxDecoration(
-                color: isDestructive ? Colors.red.shade50 : const Color(0xFFEFF4FF),
+                color: isDestructive
+                    ? Colors.red.shade50
+                    : const Color(0xFFEFF4FF),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(icon, size: 18, color: color),
@@ -296,7 +317,11 @@ class _ProfileTile extends StatelessWidget {
                 ),
               ),
             ),
-            Icon(Icons.chevron_right_rounded, color: Colors.grey.shade400, size: 20),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: Colors.grey.shade400,
+              size: 20,
+            ),
           ],
         ),
       ),
