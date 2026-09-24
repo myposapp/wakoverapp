@@ -29,6 +29,7 @@ class BaseResponseMapper extends ClassMapperBase<BaseResponse> {
   static const Field<BaseResponse, bool> _f$success = Field(
     'success',
     _$success,
+    key: r'status',
     opt: true,
   );
   static String? _$message(BaseResponse v) => v.message;
@@ -45,12 +46,19 @@ class BaseResponseMapper extends ClassMapperBase<BaseResponse> {
     opt: true,
     arg: _arg$data,
   );
+  static dynamic _$errors(BaseResponse v) => v.errors;
+  static const Field<BaseResponse, dynamic> _f$errors = Field(
+    'errors',
+    _$errors,
+    opt: true,
+  );
 
   @override
   final MappableFields<BaseResponse> fields = const {
     #success: _f$success,
     #message: _f$message,
     #data: _f$data,
+    #errors: _f$errors,
   };
 
   static BaseResponse<T> _instantiate<T>(DecodingData data) {
@@ -58,6 +66,7 @@ class BaseResponseMapper extends ClassMapperBase<BaseResponse> {
       success: data.dec(_f$success),
       message: data.dec(_f$message),
       data: data.dec(_f$data),
+      errors: data.dec(_f$errors),
     );
   }
 
@@ -124,7 +133,7 @@ extension BaseResponseValueCopy<$R, $Out, T>
 
 abstract class BaseResponseCopyWith<$R, $In extends BaseResponse<T>, $Out, T>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({bool? success, String? message, T? data});
+  $R call({bool? success, String? message, T? data, dynamic errors});
   BaseResponseCopyWith<$R2, $In, $Out2, T> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
   );
@@ -143,11 +152,13 @@ class _BaseResponseCopyWithImpl<$R, $Out, T>
     Object? success = $none,
     Object? message = $none,
     Object? data = $none,
+    Object? errors = $none,
   }) => $apply(
     FieldCopyWithData({
       if (success != $none) #success: success,
       if (message != $none) #message: message,
       if (data != $none) #data: data,
+      if (errors != $none) #errors: errors,
     }),
   );
   @override
@@ -155,6 +166,7 @@ class _BaseResponseCopyWithImpl<$R, $Out, T>
     success: data.get(#success, or: $value.success),
     message: data.get(#message, or: $value.message),
     data: data.get(#data, or: $value.data),
+    errors: data.get(#errors, or: $value.errors),
   );
 
   @override
