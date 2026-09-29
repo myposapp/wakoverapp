@@ -16,9 +16,12 @@ class PaymentGatewayFee with PaymentGatewayFeeMappable {
 
 @MappableClass()
 class PaymentGateway with PaymentGatewayMappable {
-  const PaymentGateway({this.id, this.fees});
+  const PaymentGateway({this.id, this.name, this.paymentOptions, this.fees});
 
   final String? id;
+  final String? name;
+  @MappableField(key: 'payment_options')
+  final List<String>? paymentOptions;
   final List<PaymentGatewayFee>? fees;
 
   static final fromMap = PaymentGatewayMapper.fromMap;

@@ -187,6 +187,19 @@ class PaymentGatewayMapper extends ClassMapperBase<PaymentGateway> {
     _$id,
     opt: true,
   );
+  static String? _$name(PaymentGateway v) => v.name;
+  static const Field<PaymentGateway, String> _f$name = Field(
+    'name',
+    _$name,
+    opt: true,
+  );
+  static List<String>? _$paymentOptions(PaymentGateway v) => v.paymentOptions;
+  static const Field<PaymentGateway, List<String>> _f$paymentOptions = Field(
+    'paymentOptions',
+    _$paymentOptions,
+    key: r'payment_options',
+    opt: true,
+  );
   static List<PaymentGatewayFee>? _$fees(PaymentGateway v) => v.fees;
   static const Field<PaymentGateway, List<PaymentGatewayFee>> _f$fees = Field(
     'fees',
@@ -197,11 +210,18 @@ class PaymentGatewayMapper extends ClassMapperBase<PaymentGateway> {
   @override
   final MappableFields<PaymentGateway> fields = const {
     #id: _f$id,
+    #name: _f$name,
+    #paymentOptions: _f$paymentOptions,
     #fees: _f$fees,
   };
 
   static PaymentGateway _instantiate(DecodingData data) {
-    return PaymentGateway(id: data.dec(_f$id), fees: data.dec(_f$fees));
+    return PaymentGateway(
+      id: data.dec(_f$id),
+      name: data.dec(_f$name),
+      paymentOptions: data.dec(_f$paymentOptions),
+      fees: data.dec(_f$fees),
+    );
   }
 
   @override
@@ -266,13 +286,20 @@ extension PaymentGatewayValueCopy<$R, $Out>
 
 abstract class PaymentGatewayCopyWith<$R, $In extends PaymentGateway, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
+  get paymentOptions;
   ListCopyWith<
     $R,
     PaymentGatewayFee,
     PaymentGatewayFeeCopyWith<$R, PaymentGatewayFee, PaymentGatewayFee>
   >?
   get fees;
-  $R call({String? id, List<PaymentGatewayFee>? fees});
+  $R call({
+    String? id,
+    String? name,
+    List<String>? paymentOptions,
+    List<PaymentGatewayFee>? fees,
+  });
   PaymentGatewayCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
   );
@@ -287,6 +314,15 @@ class _PaymentGatewayCopyWithImpl<$R, $Out>
   late final ClassMapperBase<PaymentGateway> $mapper =
       PaymentGatewayMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>?
+  get paymentOptions => $value.paymentOptions != null
+      ? ListCopyWith(
+          $value.paymentOptions!,
+          (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(paymentOptions: v),
+        )
+      : null;
+  @override
   ListCopyWith<
     $R,
     PaymentGatewayFee,
@@ -300,15 +336,24 @@ class _PaymentGatewayCopyWithImpl<$R, $Out>
         )
       : null;
   @override
-  $R call({Object? id = $none, Object? fees = $none}) => $apply(
+  $R call({
+    Object? id = $none,
+    Object? name = $none,
+    Object? paymentOptions = $none,
+    Object? fees = $none,
+  }) => $apply(
     FieldCopyWithData({
       if (id != $none) #id: id,
+      if (name != $none) #name: name,
+      if (paymentOptions != $none) #paymentOptions: paymentOptions,
       if (fees != $none) #fees: fees,
     }),
   );
   @override
   PaymentGateway $make(CopyWithData data) => PaymentGateway(
     id: data.get(#id, or: $value.id),
+    name: data.get(#name, or: $value.name),
+    paymentOptions: data.get(#paymentOptions, or: $value.paymentOptions),
     fees: data.get(#fees, or: $value.fees),
   );
 

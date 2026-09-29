@@ -27,7 +27,8 @@ class NetworkProvider {
 
     _accessToken = prefs.getString(AppConfig.accessTokenKey);
     _cartToken = prefs.getString(AppConfig.cartTokenKey);
-    _storeOrigin = prefs.getString(AppConfig.storeOriginKey);
+    _storeOrigin =
+        "https://jonickacademy.bokustore.com"; //prefs.getString(AppConfig.storeOriginKey);
 
     _dio.interceptors.add(
       InterceptorsWrapper(

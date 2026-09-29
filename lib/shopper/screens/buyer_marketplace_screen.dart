@@ -156,12 +156,13 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
         );
       },
     );
-    handleController.dispose();
+
     if (!mounted || handle == null || handle.trim().isEmpty) return;
     final provider = context.read<AppProvider>();
     final store = _matchStore(handle, provider.stores);
     if (store != null) provider.selectStore(store);
-    provider.showToast('Connected to ${handle.trim()}.wakover.com.');
+    provider.showToast('Connected to ${handle.trim()}');
+    // provider.showToast('Connected to ${handle.trim()}.wakover.com.');
   }
 
   @override

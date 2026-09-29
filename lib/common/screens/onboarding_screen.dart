@@ -100,12 +100,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 15),
 
                         // Image card
                         Container(
                           width: double.infinity,
-                          height: 260,
+                          height: 200,
                           decoration: BoxDecoration(
                             color: const Color(0xFFEFF4FF),
                             borderRadius: BorderRadius.circular(24),
@@ -119,7 +119,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 28),
+                        const SizedBox(height: 10),
 
                         // Title & Description
                         Text(
@@ -140,7 +140,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey.shade600,
-                              height: 1.5,
                             ),
                           ),
                         ),
@@ -219,9 +218,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 children: [
                   Icon(Icons.shield_outlined, size: 12, color: Colors.grey),
                   SizedBox(width: 4),
-                  Text(
-                    'Wakover Direct Commerce Guarantee • SSL Secured',
-                    style: TextStyle(fontSize: 10, color: Colors.grey),
+                  Expanded(
+                    child: Text(
+                      'Wakover Direct Commerce Guarantee • SSL Secured',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.grey,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      maxLines: 1,
+                    ),
                   ),
                 ],
               ),

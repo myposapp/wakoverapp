@@ -21,6 +21,8 @@ dependencies:
   retrofit: ^4.10.0
   dio: ^5.11.1
   dart_mappable: ^4.10.0
+  collection: ^1.19.1
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

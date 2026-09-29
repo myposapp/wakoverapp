@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wakover/shopper/widgets/bottom_nav_bar.dart';
 import 'package:wakover/shopper/widgets/cart.dart';
+import 'package:wakover/shopper/widgets/utility_bills.dart';
 import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
 
@@ -28,15 +29,15 @@ class BuyerHubScreen extends StatelessWidget {
 
     final actions = <_HubAction>[
       _HubAction(
-        label: 'Saved',
-        icon: Icons.bookmark_border_rounded,
-        onTap: () => provider.showToast('Saved is not available yet.'),
-      ),
-      _HubAction(
         label: 'Cart',
         icon: Icons.shopping_bag_outlined,
         badgeCount: provider.cartCount,
         onTap: () => _openCart(context),
+      ),
+      _HubAction(
+        label: 'Utility',
+        icon: Icons.build_rounded,
+        onTap: () => _openUtility(context),
       ),
       _HubAction(
         label: 'Orders',
@@ -54,15 +55,20 @@ class BuyerHubScreen extends StatelessWidget {
         onTap: () => provider.showToast('Payment is not available yet.'),
       ),
       _HubAction(
+        label: 'Transactions',
+        icon: Icons.swap_horiz_rounded,
+        onTap: () => provider.showToast('Transactions is not available yet.'),
+      ),
+      _HubAction(
+        label: 'Saved',
+        icon: Icons.bookmark_border_rounded,
+        onTap: () => provider.showToast('Saved is not available yet.'),
+      ),
+      _HubAction(
         label: 'Affiliate Codes',
         icon: Icons.percent_rounded,
         onTap: () =>
             provider.showToast('Affiliate Codes is not available yet.'),
-      ),
-      _HubAction(
-        label: 'Transactions',
-        icon: Icons.swap_horiz_rounded,
-        onTap: () => provider.showToast('Transactions is not available yet.'),
       ),
     ];
 
@@ -208,6 +214,15 @@ class BuyerHubScreen extends StatelessWidget {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) => const CartSheet(),
+    );
+  }
+
+  void _openUtility(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      enableDrag: false,
+      isScrollControlled: true,
+      builder: (ctx) => const UtilityBillsWidget(),
     );
   }
 }

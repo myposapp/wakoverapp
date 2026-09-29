@@ -38,13 +38,13 @@ class BuyerBottomNavBar extends StatelessWidget {
                 isActive: activeRoute == 'buyer_storefront',
                 onTap: () => provider.navigateTo('buyer_storefront'),
               ),
-              _buildItem(
+              /*_buildItem(
                 context,
                 icon: Icons.build_rounded,
                 label: 'Utility',
                 isActive: activeRoute == 'buyer_utility',
                 onTap: () => provider.navigateTo('buyer_utility'),
-              ),
+              ),*/
               _buildItem(
                 context,
                 icon: Icons.dashboard_customize_rounded,
