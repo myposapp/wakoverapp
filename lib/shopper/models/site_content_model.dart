@@ -16,6 +16,9 @@ class SiteContent with SiteContentMappable {
     this.links,
     this.articles,
     this.subFormImage,
+    this.heroSlides,
+    this.promoBanner,
+    this.specialPicks,
   });
 
   final SiteContentConfig? config;
@@ -36,6 +39,13 @@ class SiteContent with SiteContentMappable {
   final List<Article>? articles;
   @MappableField(key: 'sub_form_image')
   final String? subFormImage;
+  // Sections of the "default" storefront template.
+  @MappableField(key: 'hero_slides')
+  final List<HeroSlide>? heroSlides;
+  @MappableField(key: 'promo_banner')
+  final PromoBanner? promoBanner;
+  @MappableField(key: 'special_picks')
+  final List<SpecialPick>? specialPicks;
 
   static final fromMap = SiteContentMapper.fromMap;
   static final fromJson = SiteContentMapper.fromJson;
@@ -105,4 +115,52 @@ class Article with ArticleMappable {
 
   static final fromMap = ArticleMapper.fromMap;
   static final fromJson = ArticleMapper.fromJson;
+}
+
+@MappableClass()
+class HeroSlide with HeroSlideMappable {
+  const HeroSlide({this.id, this.image, this.eyebrow, this.title});
+
+  final String? id;
+  final String? image;
+  final String? eyebrow;
+  final String? title;
+
+  static final fromMap = HeroSlideMapper.fromMap;
+  static final fromJson = HeroSlideMapper.fromJson;
+}
+
+@MappableClass()
+class PromoBanner with PromoBannerMappable {
+  const PromoBanner({
+    this.title,
+    this.description,
+    this.ctaTitle,
+    this.ctaUrl,
+    this.image,
+  });
+
+  final String? title;
+  final String? description;
+  @MappableField(key: 'cla_title')
+  final String? ctaTitle;
+  @MappableField(key: 'cla_url')
+  final String? ctaUrl;
+  final String? image;
+
+  static final fromMap = PromoBannerMapper.fromMap;
+  static final fromJson = PromoBannerMapper.fromJson;
+}
+
+@MappableClass()
+class SpecialPick with SpecialPickMappable {
+  const SpecialPick({this.id, this.image, this.title, this.description});
+
+  final String? id;
+  final String? image;
+  final String? title;
+  final String? description;
+
+  static final fromMap = SpecialPickMapper.fromMap;
+  static final fromJson = SpecialPickMapper.fromJson;
 }

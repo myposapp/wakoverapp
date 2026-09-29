@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wakover/router/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:wakover/shopper/providers/cart_provider.dart';
 import 'package:wakover/shopper/widgets/cart.dart';
 import 'package:wakover/shopper/widgets/utility_bills.dart';
-import 'package:wakover/providers/app_provider.dart';
 import 'package:wakover/theme/app_theme.dart';
 
 class _HubAction {
@@ -26,13 +26,12 @@ class BuyerHubScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<AppProvider>();
 
     final actions = <_HubAction>[
       _HubAction(
         label: 'Cart',
         icon: Icons.shopping_bag_outlined,
-        badgeCount: provider.cartCount,
+        badgeCount: context.watch<CartProvider>().itemCount,
         onTap: () => _openCart(context),
       ),
       _HubAction(
@@ -207,15 +206,7 @@ class BuyerHubScreen extends StatelessWidget {
     );
   }
 
-  void _openCart(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      useRootNavigator: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (ctx) => const CartSheet(),
-    );
-  }
+  void _openCart(BuildContext context) => showCartSheet(context);
 
   void _openUtility(BuildContext context) {
     showModalBottomSheet(

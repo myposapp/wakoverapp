@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:wakover/common/constants/config.dart';
 import 'package:wakover/common/providers/preferences_provider.dart';
 import 'package:wakover/shopper/network/network_repo.dart';
@@ -28,6 +29,10 @@ class NetworkProvider {
   /// API resolves which store a request belongs to from this.
   String? get storeOrigin => _storeOrigin;
 
+  /// Notifies when the connected store changes, so long-lived screens (like
+  /// the catalog tab) can reload.
+  final storeOriginListenable = ValueNotifier<String?>(null);
+
   void _initialize(PreferenceProvider prefs) async {
     _prefs = prefs;
     _dio = Dio(BaseOptions(validateStatus: (_) => true));
@@ -35,6 +40,7 @@ class NetworkProvider {
     _accessToken = prefs.getString(AppConfig.accessTokenKey);
     _cartToken = prefs.getString(AppConfig.cartTokenKey);
     _storeOrigin = prefs.getString(AppConfig.storeOriginKey);
+    storeOriginListenable.value = _storeOrigin;
 
     _dio.interceptors.add(
       InterceptorsWrapper(
@@ -102,6 +108,7 @@ class NetworkProvider {
 
   void updateStoreOrigin(String? storeOrigin) {
     _storeOrigin = storeOrigin;
+    storeOriginListenable.value = storeOrigin;
     if (storeOrigin != null) {
       _prefs.setString(AppConfig.storeOriginKey, storeOrigin);
     } else {

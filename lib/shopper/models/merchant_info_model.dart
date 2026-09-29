@@ -8,6 +8,7 @@ class MerchantBranch with MerchantBranchMappable {
     this.id,
     this.name,
     this.phone,
+    this.address,
     this.checkin,
     this.checkout,
   });
@@ -15,6 +16,7 @@ class MerchantBranch with MerchantBranchMappable {
   final String? id;
   final String? name;
   final String? phone;
+  final String? address;
   final String? checkin;
   final String? checkout;
 

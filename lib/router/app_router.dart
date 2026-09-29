@@ -12,6 +12,9 @@ import 'package:wakover/merchant/widgets/bottom_nav.dart';
 import 'package:wakover/providers/app_provider.dart';
 import 'package:wakover/shopper/screens/account/buyer_account_screen.dart';
 import 'package:wakover/shopper/screens/account/user_settings_screen.dart';
+import 'package:wakover/shopper/screens/auth/auth_screen.dart';
+import 'package:wakover/shopper/screens/storefront/product_detail_screen.dart';
+import 'package:wakover/shopper/models/store_product_model.dart';
 import 'package:wakover/shopper/screens/affiliate_codes/affiliate_codes_screen.dart';
 import 'package:wakover/shopper/screens/bookings/bookings_screen.dart';
 import 'package:wakover/shopper/screens/coming_soon/coming_soon_screen.dart';
@@ -70,6 +73,14 @@ GoRouter createAppRouter(AppProvider appProvider) {
         path: AppRoutes.marketplace,
         builder: (context, state) => const BuyerMarketplaceScreen(),
       ),
+      GoRoute(
+        path: AppRoutes.auth,
+        builder: (context, state) => AuthScreen(
+          initialMode: state.uri.queryParameters['mode'] == 'sign-up'
+              ? AuthMode.signUp
+              : AuthMode.signIn,
+        ),
+      ),
       _merchantShell(),
       _buyerShell(),
     ],
@@ -126,7 +137,27 @@ StatefulShellRoute _buyerShell() {
           icon: Icons.language_rounded,
         ),
       ),
-      _branch(AppRoutes.buyerCatalog, const BuyerStorefrontScreen()),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: AppRoutes.buyerCatalog,
+            builder: (context, state) => const BuyerStorefrontScreen(),
+            routes: [
+              GoRoute(
+                path: 'product/:productId',
+                // The catalog passes the product it already has so the
+                // page renders instantly while details load.
+                builder: (context, state) => ProductDetailScreen(
+                  productId: state.pathParameters['productId']!,
+                  initialProduct: state.extra is StoreProduct
+                      ? state.extra as StoreProduct
+                      : null,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
       StatefulShellBranch(
         routes: [
           GoRoute(

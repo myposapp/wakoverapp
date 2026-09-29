@@ -8,6 +8,8 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:wakover/common/database/app_database.dart';
 import 'package:wakover/common/network/provider/network_provider.dart';
 import 'package:wakover/common/providers/preferences_provider.dart';
+import 'package:wakover/shopper/providers/cart_provider.dart';
+import 'package:wakover/shopper/providers/user_session_provider.dart';
 import 'package:wakover/shopper/repositories/saved_items_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wakover/router/app_router.dart';
@@ -35,6 +37,14 @@ void main() async {
         ChangeNotifierProvider.value(value: appProvider),
         Provider(create: (_) => NetworkProvider(prefProvider), lazy: false),
         Provider.value(value: prefProvider),
+        ChangeNotifierProvider(
+          create: (context) =>
+              UserSessionProvider(context.read<NetworkProvider>()),
+          lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(context.read<NetworkProvider>()),
+        ),
         Provider(create: (_) => AppDatabase(), dispose: (_, db) => db.close()),
         ProxyProvider2<AppDatabase, NetworkProvider, SavedItemsRepository>(
           update: (_, db, network, previous) =>

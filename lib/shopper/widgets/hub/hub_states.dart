@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import 'package:wakover/theme/app_theme.dart';
 
 import 'hub_image.dart';
@@ -72,10 +74,13 @@ class HubMessage extends StatelessWidget {
 }
 
 class HubSignedOutState extends StatelessWidget {
-  const HubSignedOutState({super.key, required this.feature});
+  const HubSignedOutState({super.key, required this.feature, this.onSignedIn});
 
   /// What the user is trying to see, e.g. "orders".
   final String feature;
+
+  /// Called after the user signs in from here, e.g. to reload the list.
+  final VoidCallback? onSignedIn;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +88,11 @@ class HubSignedOutState extends StatelessWidget {
       icon: Icons.lock_outline_rounded,
       title: 'Sign in required',
       message: 'Sign in to your account to see your $feature for this store.',
+      actionLabel: 'Sign in',
+      onAction: () async {
+        final signedIn = await context.push<bool>(AppRoutes.auth);
+        if (signedIn == true) onSignedIn?.call();
+      },
     );
   }
 }

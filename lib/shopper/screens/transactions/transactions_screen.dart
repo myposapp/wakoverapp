@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wakover/common/network/provider/network_provider.dart';
 import 'package:wakover/shopper/models/shopper_user_model.dart';
+import 'package:wakover/shopper/providers/user_session_provider.dart';
 import 'package:wakover/shopper/models/wallet_transaction_model.dart';
 import 'package:wakover/shopper/widgets/hub/formatters.dart';
 import 'package:wakover/shopper/widgets/hub/hub_image.dart';
@@ -21,41 +21,28 @@ class TransactionsScreen extends StatefulWidget {
 
 class _TransactionsScreenState extends State<TransactionsScreen> {
   final _listKey = GlobalKey<PagedListViewState<WalletTransaction>>();
-  ShopperUser? _user;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _loadProfile());
+    // Refresh so the balance reflects the latest wallet activity.
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => context.read<UserSessionProvider>().refreshProfile(),
+    );
   }
 
-  Future<void> _loadProfile() async {
-    final network = context.read<NetworkProvider>();
-    if (!network.isSignedIn || network.storeOrigin == null) return;
-    try {
-      final response = await network.shopperNetworkRepo.getProfile();
-      if (mounted && response.success == true) {
-        setState(() => _user = response.data);
-      }
-    } catch (_) {
-      // The wallet card is hidden until the profile loads.
-    }
-  }
-
-  Future<void> _withdraw() async {
-    final user = _user;
-    if (user == null) return;
+  Future<void> _withdraw(ShopperUser user) async {
     final completed = await showWithdrawSheet(context, user: user);
     if (completed == true && mounted) {
       showHubSnack(context, 'Money has been sent to the provided account.');
-      _loadProfile();
+      context.read<UserSessionProvider>().refreshProfile();
       _listKey.currentState?.refresh();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = _user;
+    final user = context.watch<UserSessionProvider>().user;
     return Scaffold(
       appBar: AppBar(title: const Text('Transactions')),
       body: SafeArea(
@@ -65,7 +52,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           fetchPage: (repo, page) => repo.getWalletTransactions(page: page),
           header: user == null
               ? null
-              : _WalletCard(user: user, onWithdraw: _withdraw),
+              : _WalletCard(user: user, onWithdraw: () => _withdraw(user)),
           emptyState: const HubMessage(
             icon: Icons.swap_horiz_rounded,
             title: 'No transactions yet',

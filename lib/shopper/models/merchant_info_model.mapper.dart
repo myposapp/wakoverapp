@@ -40,6 +40,12 @@ class MerchantBranchMapper extends ClassMapperBase<MerchantBranch> {
     _$phone,
     opt: true,
   );
+  static String? _$address(MerchantBranch v) => v.address;
+  static const Field<MerchantBranch, String> _f$address = Field(
+    'address',
+    _$address,
+    opt: true,
+  );
   static String? _$checkin(MerchantBranch v) => v.checkin;
   static const Field<MerchantBranch, String> _f$checkin = Field(
     'checkin',
@@ -58,6 +64,7 @@ class MerchantBranchMapper extends ClassMapperBase<MerchantBranch> {
     #id: _f$id,
     #name: _f$name,
     #phone: _f$phone,
+    #address: _f$address,
     #checkin: _f$checkin,
     #checkout: _f$checkout,
   };
@@ -67,6 +74,7 @@ class MerchantBranchMapper extends ClassMapperBase<MerchantBranch> {
       id: data.dec(_f$id),
       name: data.dec(_f$name),
       phone: data.dec(_f$phone),
+      address: data.dec(_f$address),
       checkin: data.dec(_f$checkin),
       checkout: data.dec(_f$checkout),
     );
@@ -138,6 +146,7 @@ abstract class MerchantBranchCopyWith<$R, $In extends MerchantBranch, $Out>
     String? id,
     String? name,
     String? phone,
+    String? address,
     String? checkin,
     String? checkout,
   });
@@ -159,6 +168,7 @@ class _MerchantBranchCopyWithImpl<$R, $Out>
     Object? id = $none,
     Object? name = $none,
     Object? phone = $none,
+    Object? address = $none,
     Object? checkin = $none,
     Object? checkout = $none,
   }) => $apply(
@@ -166,6 +176,7 @@ class _MerchantBranchCopyWithImpl<$R, $Out>
       if (id != $none) #id: id,
       if (name != $none) #name: name,
       if (phone != $none) #phone: phone,
+      if (address != $none) #address: address,
       if (checkin != $none) #checkin: checkin,
       if (checkout != $none) #checkout: checkout,
     }),
@@ -175,6 +186,7 @@ class _MerchantBranchCopyWithImpl<$R, $Out>
     id: data.get(#id, or: $value.id),
     name: data.get(#name, or: $value.name),
     phone: data.get(#phone, or: $value.phone),
+    address: data.get(#address, or: $value.address),
     checkin: data.get(#checkin, or: $value.checkin),
     checkout: data.get(#checkout, or: $value.checkout),
   );

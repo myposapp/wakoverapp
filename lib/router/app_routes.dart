@@ -15,6 +15,7 @@ abstract final class AppRoutes {
   static const marketplace = '/marketplace';
   static const buyerWeb = '/buyer/web';
   static const buyerCatalog = '/buyer/catalog';
+  static String product(String id) => '$buyerCatalog/product/$id';
   static const buyerUtility = '/buyer/utility';
   static const buyerHub = '/buyer/hub';
   static const hubOrders = '$buyerHub/orders';
@@ -25,4 +26,8 @@ abstract final class AppRoutes {
   static const hubAffiliateCodes = '$buyerHub/affiliate-codes';
   static const buyerAccount = '/buyer/account';
   static const userSettings = '$buyerAccount/settings';
+
+  // Full screen, above the tab bar. Add `?mode=sign-up` to open on sign up.
+  static const auth = '/auth';
+  static const signUp = '$auth?mode=sign-up';
 }

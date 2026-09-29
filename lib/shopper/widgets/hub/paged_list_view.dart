@@ -151,7 +151,10 @@ class PagedListViewState<T> extends State<PagedListView<T>> {
     if (network.storeOrigin == null) {
       fullState = const HubNoStoreState();
     } else if (_isSignedOut) {
-      fullState = HubSignedOutState(feature: widget.feature);
+      fullState = HubSignedOutState(
+        feature: widget.feature,
+        onSignedIn: refresh,
+      );
     } else if (_error != null && _items.isEmpty) {
       fullState = HubErrorState(message: _error!, onRetry: refresh);
     } else if (_items.isEmpty && !_hasMore && !_isLoading) {

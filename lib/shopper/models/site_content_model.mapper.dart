@@ -19,6 +19,9 @@ class SiteContentMapper extends ClassMapperBase<SiteContent> {
       HeroContentMapper.ensureInitialized();
       ContactSectionMapper.ensureInitialized();
       ArticleMapper.ensureInitialized();
+      HeroSlideMapper.ensureInitialized();
+      PromoBannerMapper.ensureInitialized();
+      SpecialPickMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -100,6 +103,27 @@ class SiteContentMapper extends ClassMapperBase<SiteContent> {
     key: r'sub_form_image',
     opt: true,
   );
+  static List<HeroSlide>? _$heroSlides(SiteContent v) => v.heroSlides;
+  static const Field<SiteContent, List<HeroSlide>> _f$heroSlides = Field(
+    'heroSlides',
+    _$heroSlides,
+    key: r'hero_slides',
+    opt: true,
+  );
+  static PromoBanner? _$promoBanner(SiteContent v) => v.promoBanner;
+  static const Field<SiteContent, PromoBanner> _f$promoBanner = Field(
+    'promoBanner',
+    _$promoBanner,
+    key: r'promo_banner',
+    opt: true,
+  );
+  static List<SpecialPick>? _$specialPicks(SiteContent v) => v.specialPicks;
+  static const Field<SiteContent, List<SpecialPick>> _f$specialPicks = Field(
+    'specialPicks',
+    _$specialPicks,
+    key: r'special_picks',
+    opt: true,
+  );
 
   @override
   final MappableFields<SiteContent> fields = const {
@@ -114,6 +138,9 @@ class SiteContentMapper extends ClassMapperBase<SiteContent> {
     #links: _f$links,
     #articles: _f$articles,
     #subFormImage: _f$subFormImage,
+    #heroSlides: _f$heroSlides,
+    #promoBanner: _f$promoBanner,
+    #specialPicks: _f$specialPicks,
   };
 
   static SiteContent _instantiate(DecodingData data) {
@@ -129,6 +156,9 @@ class SiteContentMapper extends ClassMapperBase<SiteContent> {
       links: data.dec(_f$links),
       articles: data.dec(_f$articles),
       subFormImage: data.dec(_f$subFormImage),
+      heroSlides: data.dec(_f$heroSlides),
+      promoBanner: data.dec(_f$promoBanner),
+      specialPicks: data.dec(_f$specialPicks),
     );
   }
 
@@ -204,6 +234,15 @@ abstract class SiteContentCopyWith<$R, $In extends SiteContent, $Out>
   ListCopyWith<$R, dynamic, ObjectCopyWith<$R, dynamic, dynamic>?>? get links;
   ListCopyWith<$R, Article, ArticleCopyWith<$R, Article, Article>>?
   get articles;
+  ListCopyWith<$R, HeroSlide, HeroSlideCopyWith<$R, HeroSlide, HeroSlide>>?
+  get heroSlides;
+  PromoBannerCopyWith<$R, PromoBanner, PromoBanner>? get promoBanner;
+  ListCopyWith<
+    $R,
+    SpecialPick,
+    SpecialPickCopyWith<$R, SpecialPick, SpecialPick>
+  >?
+  get specialPicks;
   $R call({
     SiteContentConfig? config,
     HeroContent? proximHeroContent,
@@ -216,6 +255,9 @@ abstract class SiteContentCopyWith<$R, $In extends SiteContent, $Out>
     List<dynamic>? links,
     List<Article>? articles,
     String? subFormImage,
+    List<HeroSlide>? heroSlides,
+    PromoBanner? promoBanner,
+    List<SpecialPick>? specialPicks,
   });
   SiteContentCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -277,6 +319,31 @@ class _SiteContentCopyWithImpl<$R, $Out>
         )
       : null;
   @override
+  ListCopyWith<$R, HeroSlide, HeroSlideCopyWith<$R, HeroSlide, HeroSlide>>?
+  get heroSlides => $value.heroSlides != null
+      ? ListCopyWith(
+          $value.heroSlides!,
+          (v, t) => v.copyWith.$chain(t),
+          (v) => call(heroSlides: v),
+        )
+      : null;
+  @override
+  PromoBannerCopyWith<$R, PromoBanner, PromoBanner>? get promoBanner =>
+      $value.promoBanner?.copyWith.$chain((v) => call(promoBanner: v));
+  @override
+  ListCopyWith<
+    $R,
+    SpecialPick,
+    SpecialPickCopyWith<$R, SpecialPick, SpecialPick>
+  >?
+  get specialPicks => $value.specialPicks != null
+      ? ListCopyWith(
+          $value.specialPicks!,
+          (v, t) => v.copyWith.$chain(t),
+          (v) => call(specialPicks: v),
+        )
+      : null;
+  @override
   $R call({
     Object? config = $none,
     Object? proximHeroContent = $none,
@@ -289,6 +356,9 @@ class _SiteContentCopyWithImpl<$R, $Out>
     Object? links = $none,
     Object? articles = $none,
     Object? subFormImage = $none,
+    Object? heroSlides = $none,
+    Object? promoBanner = $none,
+    Object? specialPicks = $none,
   }) => $apply(
     FieldCopyWithData({
       if (config != $none) #config: config,
@@ -303,6 +373,9 @@ class _SiteContentCopyWithImpl<$R, $Out>
       if (links != $none) #links: links,
       if (articles != $none) #articles: articles,
       if (subFormImage != $none) #subFormImage: subFormImage,
+      if (heroSlides != $none) #heroSlides: heroSlides,
+      if (promoBanner != $none) #promoBanner: promoBanner,
+      if (specialPicks != $none) #specialPicks: specialPicks,
     }),
   );
   @override
@@ -324,6 +397,9 @@ class _SiteContentCopyWithImpl<$R, $Out>
     links: data.get(#links, or: $value.links),
     articles: data.get(#articles, or: $value.articles),
     subFormImage: data.get(#subFormImage, or: $value.subFormImage),
+    heroSlides: data.get(#heroSlides, or: $value.heroSlides),
+    promoBanner: data.get(#promoBanner, or: $value.promoBanner),
+    specialPicks: data.get(#specialPicks, or: $value.specialPicks),
   );
 
   @override
@@ -1002,5 +1078,483 @@ class _ArticleCopyWithImpl<$R, $Out>
   @override
   ArticleCopyWith<$R2, Article, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _ArticleCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class HeroSlideMapper extends ClassMapperBase<HeroSlide> {
+  HeroSlideMapper._();
+
+  static HeroSlideMapper? _instance;
+  static HeroSlideMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = HeroSlideMapper._());
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'HeroSlide';
+
+  static String? _$id(HeroSlide v) => v.id;
+  static const Field<HeroSlide, String> _f$id = Field('id', _$id, opt: true);
+  static String? _$image(HeroSlide v) => v.image;
+  static const Field<HeroSlide, String> _f$image = Field(
+    'image',
+    _$image,
+    opt: true,
+  );
+  static String? _$eyebrow(HeroSlide v) => v.eyebrow;
+  static const Field<HeroSlide, String> _f$eyebrow = Field(
+    'eyebrow',
+    _$eyebrow,
+    opt: true,
+  );
+  static String? _$title(HeroSlide v) => v.title;
+  static const Field<HeroSlide, String> _f$title = Field(
+    'title',
+    _$title,
+    opt: true,
+  );
+
+  @override
+  final MappableFields<HeroSlide> fields = const {
+    #id: _f$id,
+    #image: _f$image,
+    #eyebrow: _f$eyebrow,
+    #title: _f$title,
+  };
+
+  static HeroSlide _instantiate(DecodingData data) {
+    return HeroSlide(
+      id: data.dec(_f$id),
+      image: data.dec(_f$image),
+      eyebrow: data.dec(_f$eyebrow),
+      title: data.dec(_f$title),
+    );
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static HeroSlide fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<HeroSlide>(map);
+  }
+
+  static HeroSlide fromJson(String json) {
+    return ensureInitialized().decodeJson<HeroSlide>(json);
+  }
+}
+
+mixin HeroSlideMappable {
+  String toJson() {
+    return HeroSlideMapper.ensureInitialized().encodeJson<HeroSlide>(
+      this as HeroSlide,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return HeroSlideMapper.ensureInitialized().encodeMap<HeroSlide>(
+      this as HeroSlide,
+    );
+  }
+
+  HeroSlideCopyWith<HeroSlide, HeroSlide, HeroSlide> get copyWith =>
+      _HeroSlideCopyWithImpl<HeroSlide, HeroSlide>(
+        this as HeroSlide,
+        $identity,
+        $identity,
+      );
+  @override
+  String toString() {
+    return HeroSlideMapper.ensureInitialized().stringifyValue(
+      this as HeroSlide,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return HeroSlideMapper.ensureInitialized().equalsValue(
+      this as HeroSlide,
+      other,
+    );
+  }
+
+  @override
+  int get hashCode {
+    return HeroSlideMapper.ensureInitialized().hashValue(this as HeroSlide);
+  }
+}
+
+extension HeroSlideValueCopy<$R, $Out> on ObjectCopyWith<$R, HeroSlide, $Out> {
+  HeroSlideCopyWith<$R, HeroSlide, $Out> get $asHeroSlide =>
+      $base.as((v, t, t2) => _HeroSlideCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class HeroSlideCopyWith<$R, $In extends HeroSlide, $Out>
+    implements ClassCopyWith<$R, $In, $Out> {
+  $R call({String? id, String? image, String? eyebrow, String? title});
+  HeroSlideCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+}
+
+class _HeroSlideCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, HeroSlide, $Out>
+    implements HeroSlideCopyWith<$R, HeroSlide, $Out> {
+  _HeroSlideCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<HeroSlide> $mapper =
+      HeroSlideMapper.ensureInitialized();
+  @override
+  $R call({
+    Object? id = $none,
+    Object? image = $none,
+    Object? eyebrow = $none,
+    Object? title = $none,
+  }) => $apply(
+    FieldCopyWithData({
+      if (id != $none) #id: id,
+      if (image != $none) #image: image,
+      if (eyebrow != $none) #eyebrow: eyebrow,
+      if (title != $none) #title: title,
+    }),
+  );
+  @override
+  HeroSlide $make(CopyWithData data) => HeroSlide(
+    id: data.get(#id, or: $value.id),
+    image: data.get(#image, or: $value.image),
+    eyebrow: data.get(#eyebrow, or: $value.eyebrow),
+    title: data.get(#title, or: $value.title),
+  );
+
+  @override
+  HeroSlideCopyWith<$R2, HeroSlide, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  ) => _HeroSlideCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class PromoBannerMapper extends ClassMapperBase<PromoBanner> {
+  PromoBannerMapper._();
+
+  static PromoBannerMapper? _instance;
+  static PromoBannerMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = PromoBannerMapper._());
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'PromoBanner';
+
+  static String? _$title(PromoBanner v) => v.title;
+  static const Field<PromoBanner, String> _f$title = Field(
+    'title',
+    _$title,
+    opt: true,
+  );
+  static String? _$description(PromoBanner v) => v.description;
+  static const Field<PromoBanner, String> _f$description = Field(
+    'description',
+    _$description,
+    opt: true,
+  );
+  static String? _$ctaTitle(PromoBanner v) => v.ctaTitle;
+  static const Field<PromoBanner, String> _f$ctaTitle = Field(
+    'ctaTitle',
+    _$ctaTitle,
+    key: r'cla_title',
+    opt: true,
+  );
+  static String? _$ctaUrl(PromoBanner v) => v.ctaUrl;
+  static const Field<PromoBanner, String> _f$ctaUrl = Field(
+    'ctaUrl',
+    _$ctaUrl,
+    key: r'cla_url',
+    opt: true,
+  );
+  static String? _$image(PromoBanner v) => v.image;
+  static const Field<PromoBanner, String> _f$image = Field(
+    'image',
+    _$image,
+    opt: true,
+  );
+
+  @override
+  final MappableFields<PromoBanner> fields = const {
+    #title: _f$title,
+    #description: _f$description,
+    #ctaTitle: _f$ctaTitle,
+    #ctaUrl: _f$ctaUrl,
+    #image: _f$image,
+  };
+
+  static PromoBanner _instantiate(DecodingData data) {
+    return PromoBanner(
+      title: data.dec(_f$title),
+      description: data.dec(_f$description),
+      ctaTitle: data.dec(_f$ctaTitle),
+      ctaUrl: data.dec(_f$ctaUrl),
+      image: data.dec(_f$image),
+    );
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static PromoBanner fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<PromoBanner>(map);
+  }
+
+  static PromoBanner fromJson(String json) {
+    return ensureInitialized().decodeJson<PromoBanner>(json);
+  }
+}
+
+mixin PromoBannerMappable {
+  String toJson() {
+    return PromoBannerMapper.ensureInitialized().encodeJson<PromoBanner>(
+      this as PromoBanner,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return PromoBannerMapper.ensureInitialized().encodeMap<PromoBanner>(
+      this as PromoBanner,
+    );
+  }
+
+  PromoBannerCopyWith<PromoBanner, PromoBanner, PromoBanner> get copyWith =>
+      _PromoBannerCopyWithImpl<PromoBanner, PromoBanner>(
+        this as PromoBanner,
+        $identity,
+        $identity,
+      );
+  @override
+  String toString() {
+    return PromoBannerMapper.ensureInitialized().stringifyValue(
+      this as PromoBanner,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return PromoBannerMapper.ensureInitialized().equalsValue(
+      this as PromoBanner,
+      other,
+    );
+  }
+
+  @override
+  int get hashCode {
+    return PromoBannerMapper.ensureInitialized().hashValue(this as PromoBanner);
+  }
+}
+
+extension PromoBannerValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, PromoBanner, $Out> {
+  PromoBannerCopyWith<$R, PromoBanner, $Out> get $asPromoBanner =>
+      $base.as((v, t, t2) => _PromoBannerCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class PromoBannerCopyWith<$R, $In extends PromoBanner, $Out>
+    implements ClassCopyWith<$R, $In, $Out> {
+  $R call({
+    String? title,
+    String? description,
+    String? ctaTitle,
+    String? ctaUrl,
+    String? image,
+  });
+  PromoBannerCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+}
+
+class _PromoBannerCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, PromoBanner, $Out>
+    implements PromoBannerCopyWith<$R, PromoBanner, $Out> {
+  _PromoBannerCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<PromoBanner> $mapper =
+      PromoBannerMapper.ensureInitialized();
+  @override
+  $R call({
+    Object? title = $none,
+    Object? description = $none,
+    Object? ctaTitle = $none,
+    Object? ctaUrl = $none,
+    Object? image = $none,
+  }) => $apply(
+    FieldCopyWithData({
+      if (title != $none) #title: title,
+      if (description != $none) #description: description,
+      if (ctaTitle != $none) #ctaTitle: ctaTitle,
+      if (ctaUrl != $none) #ctaUrl: ctaUrl,
+      if (image != $none) #image: image,
+    }),
+  );
+  @override
+  PromoBanner $make(CopyWithData data) => PromoBanner(
+    title: data.get(#title, or: $value.title),
+    description: data.get(#description, or: $value.description),
+    ctaTitle: data.get(#ctaTitle, or: $value.ctaTitle),
+    ctaUrl: data.get(#ctaUrl, or: $value.ctaUrl),
+    image: data.get(#image, or: $value.image),
+  );
+
+  @override
+  PromoBannerCopyWith<$R2, PromoBanner, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  ) => _PromoBannerCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class SpecialPickMapper extends ClassMapperBase<SpecialPick> {
+  SpecialPickMapper._();
+
+  static SpecialPickMapper? _instance;
+  static SpecialPickMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = SpecialPickMapper._());
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'SpecialPick';
+
+  static String? _$id(SpecialPick v) => v.id;
+  static const Field<SpecialPick, String> _f$id = Field('id', _$id, opt: true);
+  static String? _$image(SpecialPick v) => v.image;
+  static const Field<SpecialPick, String> _f$image = Field(
+    'image',
+    _$image,
+    opt: true,
+  );
+  static String? _$title(SpecialPick v) => v.title;
+  static const Field<SpecialPick, String> _f$title = Field(
+    'title',
+    _$title,
+    opt: true,
+  );
+  static String? _$description(SpecialPick v) => v.description;
+  static const Field<SpecialPick, String> _f$description = Field(
+    'description',
+    _$description,
+    opt: true,
+  );
+
+  @override
+  final MappableFields<SpecialPick> fields = const {
+    #id: _f$id,
+    #image: _f$image,
+    #title: _f$title,
+    #description: _f$description,
+  };
+
+  static SpecialPick _instantiate(DecodingData data) {
+    return SpecialPick(
+      id: data.dec(_f$id),
+      image: data.dec(_f$image),
+      title: data.dec(_f$title),
+      description: data.dec(_f$description),
+    );
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static SpecialPick fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<SpecialPick>(map);
+  }
+
+  static SpecialPick fromJson(String json) {
+    return ensureInitialized().decodeJson<SpecialPick>(json);
+  }
+}
+
+mixin SpecialPickMappable {
+  String toJson() {
+    return SpecialPickMapper.ensureInitialized().encodeJson<SpecialPick>(
+      this as SpecialPick,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return SpecialPickMapper.ensureInitialized().encodeMap<SpecialPick>(
+      this as SpecialPick,
+    );
+  }
+
+  SpecialPickCopyWith<SpecialPick, SpecialPick, SpecialPick> get copyWith =>
+      _SpecialPickCopyWithImpl<SpecialPick, SpecialPick>(
+        this as SpecialPick,
+        $identity,
+        $identity,
+      );
+  @override
+  String toString() {
+    return SpecialPickMapper.ensureInitialized().stringifyValue(
+      this as SpecialPick,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return SpecialPickMapper.ensureInitialized().equalsValue(
+      this as SpecialPick,
+      other,
+    );
+  }
+
+  @override
+  int get hashCode {
+    return SpecialPickMapper.ensureInitialized().hashValue(this as SpecialPick);
+  }
+}
+
+extension SpecialPickValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, SpecialPick, $Out> {
+  SpecialPickCopyWith<$R, SpecialPick, $Out> get $asSpecialPick =>
+      $base.as((v, t, t2) => _SpecialPickCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class SpecialPickCopyWith<$R, $In extends SpecialPick, $Out>
+    implements ClassCopyWith<$R, $In, $Out> {
+  $R call({String? id, String? image, String? title, String? description});
+  SpecialPickCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+}
+
+class _SpecialPickCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, SpecialPick, $Out>
+    implements SpecialPickCopyWith<$R, SpecialPick, $Out> {
+  _SpecialPickCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<SpecialPick> $mapper =
+      SpecialPickMapper.ensureInitialized();
+  @override
+  $R call({
+    Object? id = $none,
+    Object? image = $none,
+    Object? title = $none,
+    Object? description = $none,
+  }) => $apply(
+    FieldCopyWithData({
+      if (id != $none) #id: id,
+      if (image != $none) #image: image,
+      if (title != $none) #title: title,
+      if (description != $none) #description: description,
+    }),
+  );
+  @override
+  SpecialPick $make(CopyWithData data) => SpecialPick(
+    id: data.get(#id, or: $value.id),
+    image: data.get(#image, or: $value.image),
+    title: data.get(#title, or: $value.title),
+    description: data.get(#description, or: $value.description),
+  );
+
+  @override
+  SpecialPickCopyWith<$R2, SpecialPick, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  ) => _SpecialPickCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
 

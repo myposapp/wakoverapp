@@ -1,9 +1,10 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wakover/common/database/app_database.dart';
 import 'package:wakover/common/network/provider/network_provider.dart';
-import 'package:wakover/providers/app_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
+import 'package:wakover/shopper/providers/cart_provider.dart';
 import 'package:wakover/shopper/repositories/saved_items_repository.dart';
 import 'package:wakover/shopper/widgets/hub/formatters.dart';
 import 'package:wakover/shopper/widgets/hub/hub_image.dart';
@@ -209,105 +210,108 @@ class _SavedItemCard extends StatelessWidget {
   final SavedItem item;
   final VoidCallback onRemove;
 
+  Future<void> _addToBag(BuildContext context) async {
+    final error = await context.read<CartProvider>().add(item.productId);
+    if (context.mounted) {
+      showHubSnack(context, error ?? 'Added ${item.name} to your bag');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final appProvider = context.read<AppProvider>();
-    // The catalog is still backed by mock products; only those can be bagged.
-    final product = appProvider.products.firstWhereOrNull(
-      (p) => p.id == item.productId,
+    final isBusy = context.select<CartProvider, bool>(
+      (cart) => cart.busyProductId == item.productId,
     );
-    final canBag = product != null && product.status != 'out_of_stock';
 
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: hubBorder(context)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              LayoutBuilder(
-                builder: (context, constraints) => HubImage(
-                  path: item.image,
-                  size: constraints.maxWidth,
-                  height: 110,
-                  radius: 14,
+    return GestureDetector(
+      onTap: () => context.go(AppRoutes.product(item.productId)),
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: hubBorder(context)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                LayoutBuilder(
+                  builder: (context, constraints) => HubImage(
+                    path: item.image,
+                    size: constraints.maxWidth,
+                    height: 110,
+                    radius: 14,
+                  ),
                 ),
-              ),
-              Positioned(
-                top: 6,
-                right: 6,
-                child: Material(
-                  color: Colors.white.withValues(alpha: 0.9),
-                  shape: const CircleBorder(),
-                  child: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: onRemove,
-                    child: const Padding(
-                      padding: EdgeInsets.all(6),
-                      child: Icon(
-                        Icons.bookmark_rounded,
-                        size: 16,
-                        color: AppTheme.primaryBlue,
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: Material(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    shape: const CircleBorder(),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: onRemove,
+                      child: const Padding(
+                        padding: EdgeInsets.all(6),
+                        child: Icon(
+                          Icons.bookmark_rounded,
+                          size: 16,
+                          color: AppTheme.primaryBlue,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            item.name,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-          ),
-          if (item.category != null)
+              ],
+            ),
+            const SizedBox(height: 8),
             Text(
-              item.category!,
-              maxLines: 1,
+              item.name,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 10, color: hubMutedText(context)),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
-          const Spacer(),
-          if (item.price != null)
-            Text(
-              formatNaira(item.price),
-              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-            ),
-          const SizedBox(height: 6),
-          SizedBox(
-            width: double.infinity,
-            height: 34,
-            child: ElevatedButton(
-              onPressed: canBag ? () => appProvider.addToCart(product) : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.navyDark,
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+            if (item.category != null)
+              Text(
+                item.category!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 10, color: hubMutedText(context)),
               ),
-              child: Text(
-                product == null
-                    ? 'Unavailable'
-                    : canBag
-                    ? 'Add to Bag'
-                    : 'Sold Out',
+            const Spacer(),
+            if (item.price != null)
+              Text(
+                formatNaira(item.price),
                 style: const TextStyle(
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            const SizedBox(height: 6),
+            SizedBox(
+              width: double.infinity,
+              height: 34,
+              child: ElevatedButton(
+                onPressed: isBusy ? null : () => _addToBag(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.navyDark,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text(
+                  'Add to Bag',
+                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

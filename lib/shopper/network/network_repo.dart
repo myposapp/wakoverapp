@@ -11,12 +11,14 @@ import '../models/payment_gateway_model.dart';
 import '../models/payment_model.dart';
 import '../models/platform_order_model.dart';
 import '../models/product_category_model.dart';
+import '../models/product_review_model.dart';
 import '../models/service_fee_model.dart';
 import '../models/shipping_method_model.dart';
 import '../models/shopper_user_model.dart';
 import '../models/site_config_model.dart';
 import '../models/site_content_model.dart';
 import '../models/store_order_model.dart';
+import '../models/store_product_model.dart';
 import '../models/testimonial_model.dart';
 import '../models/utility_customer_account_model.dart';
 import '../models/wallet_transaction_model.dart';
@@ -39,7 +41,7 @@ class ShopperNetworkRepo {
     return BaseResponse.fromMap<SiteConfig>(response);
   }
 
-  Future<PaginatedResponse<dynamic>> getProducts({
+  Future<PaginatedResponse<StoreProduct>> getProducts({
     int page = 0,
     int pageSize = 20,
     String? search,
@@ -53,12 +55,12 @@ class ShopperNetworkRepo {
     };
 
     final response = await _client.getProducts(query) as Map<String, dynamic>;
-    return PaginatedResponse.fromMap<dynamic>(response);
+    return PaginatedResponse.fromMap<StoreProduct>(response);
   }
 
-  Future<BaseResponse<dynamic>> getProduct(String productId) async {
+  Future<BaseResponse<StoreProduct>> getProduct(String productId) async {
     final response = await _client.getProduct(productId) as Map<String, dynamic>;
-    return BaseResponse.fromMap<dynamic>(response);
+    return BaseResponse.fromMap<StoreProduct>(response);
   }
 
   Future<BaseResponse<dynamic>> getProductPlaces(
@@ -92,7 +94,7 @@ class ShopperNetworkRepo {
     return BaseResponse.fromMap<dynamic>(response);
   }
 
-  Future<PaginatedResponse<dynamic>> getProductReviews(
+  Future<PaginatedResponse<ProductReview>> getProductReviews(
     String productId, {
     int page = 0,
     int pageSize = 10,
@@ -102,7 +104,7 @@ class ShopperNetworkRepo {
     final response =
         await _client.getProductReviews(productId, query)
             as Map<String, dynamic>;
-    return PaginatedResponse.fromMap<dynamic>(response);
+    return PaginatedResponse.fromMap<ProductReview>(response);
   }
 
   Future<BaseResponse<dynamic>> postProductReview(
@@ -265,11 +267,17 @@ class ShopperNetworkRepo {
     return BaseResponse.fromMap<ShopperUser>(response);
   }
 
+  /// Signs in with either an email or a phone number (E.164).
   Future<BaseResponse<ShopperUser>> signIn({
-    required String email,
+    String? email,
+    String? phone,
     required String password,
   }) async {
-    final body = {"email": email, "password": password};
+    final body = {
+      if (email != null) "email": email,
+      if (phone != null) "phone": phone,
+      "password": password,
+    };
 
     final response = await _client.signIn(body) as Map<String, dynamic>;
     return BaseResponse.fromMap<ShopperUser>(response);
