@@ -122,6 +122,114 @@ class UserSessionProvider extends ChangeNotifier {
     }
   }
 
+  /// Whether merchant campaigns are shown; the API treats "not set" as yes.
+  bool get showsCampaigns {
+    final config = user?.config;
+    final value = config is Map ? config['show_merchant_campaigns'] : null;
+    return value is bool ? value : true;
+  }
+
+  /// Saves profile details, and the password when both passwords are given.
+  Future<AuthResult> updateProfile({
+    required String name,
+    required String email,
+    required String phone,
+    String? oldPassword,
+    String? newPassword,
+  }) async {
+    try {
+      final response = await _network.shopperNetworkRepo.updateProfile(
+        name: name,
+        email: email,
+        phone: phone,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      );
+      final updated = response.data;
+      if (response.success != true || updated == null) {
+        return (
+          success: false,
+          message: response.message ?? 'Could not save your changes.',
+          field: _errorField(response.errors),
+        );
+      }
+      // The response omits wallet, KYC and config, so merge rather than
+      // replace.
+      final current = _user;
+      _user = current == null
+          ? updated
+          : current.copyWith(
+              name: updated.name,
+              email: updated.email,
+              phone: updated.phone,
+              photo: updated.photo,
+            );
+      notifyListeners();
+      return (success: true, message: null, field: null);
+    } catch (e) {
+      return (success: false, message: e.toString(), field: null);
+    }
+  }
+
+  /// Updates the preference immediately and reverts it if saving fails.
+  /// Returns an error message, or null on success.
+  Future<String?> setShowCampaigns(bool show) async {
+    final previous = _user?.config;
+    _setConfig({'show_merchant_campaigns': show});
+    try {
+      final response = await _network.shopperNetworkRepo.updateAuthConfig(
+        showMerchantCampaigns: show,
+      );
+      if (response.success == true) {
+        _setConfig({
+          'show_merchant_campaigns':
+              response.data?.showMerchantCampaigns ?? show,
+        });
+        return null;
+      }
+      _setConfig(previous);
+      return response.message ?? 'Could not save this setting.';
+    } catch (e) {
+      _setConfig(previous);
+      return e.toString();
+    }
+  }
+
+  void _setConfig(dynamic config) {
+    final current = _user;
+    if (current == null) return;
+    _user = current.copyWith(config: config);
+    notifyListeners();
+  }
+
+  /// Returns an error message, or null on success.
+  Future<String?> submitKyc({
+    String? bvn,
+    String? nin,
+    String? licenseFilePath,
+    Map<String, dynamic>? existingLicense,
+  }) async {
+    try {
+      final response = await _network.shopperNetworkRepo.submitKyc(
+        bvn: bvn,
+        nin: nin,
+        licenseFilePath: licenseFilePath,
+        existingLicense: existingLicense,
+      );
+      if (response.success != true) {
+        return response.message ?? 'Could not submit your details.';
+      }
+      final current = _user;
+      if (current != null && response.data != null) {
+        _user = current.copyWith(kyc: response.data);
+        notifyListeners();
+      }
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   Future<void> signOut() async {
     try {
       await _network.shopperNetworkRepo.signOut();

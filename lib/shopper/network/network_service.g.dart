@@ -704,12 +704,11 @@ class _ShopperNetworkClient implements ShopperNetworkClient {
   }
 
   @override
-  Future<dynamic> submitKyc(Map<String, dynamic> body) async {
+  Future<dynamic> submitKyc(FormData body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(body);
+    final _data = body;
     final _options = _setStreamType<dynamic>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(

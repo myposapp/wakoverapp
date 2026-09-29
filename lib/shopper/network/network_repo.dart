@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+
 import '../../common/network/model/base_api_response.dart';
 import '../../common/network/model/paginated_response.dart';
 import '../models/affiliate_code_model.dart';
@@ -345,9 +349,27 @@ class ShopperNetworkRepo {
     return BaseResponse.fromMap<dynamic>(response);
   }
 
-  Future<BaseResponse<dynamic>> submitKyc(Map<String, dynamic> body) async {
+  /// Uploads [licenseFilePath] as the driving license, or re-sends
+  /// [existingLicense] ({"url": ...}) so the one on file isn't cleared. Empty
+  /// fields are sent as "null", which is how the web form clears them.
+  Future<BaseResponse<Kyc>> submitKyc({
+    String? bvn,
+    String? nin,
+    String? licenseFilePath,
+    Map<String, dynamic>? existingLicense,
+  }) async {
+    final body = FormData.fromMap({
+      "bvn": bvn ?? "null",
+      "nin": nin ?? "null",
+      "driving_license": licenseFilePath != null
+          ? await MultipartFile.fromFile(licenseFilePath)
+          : existingLicense != null
+          ? jsonEncode(existingLicense)
+          : "null",
+    });
+
     final response = await _client.submitKyc(body) as Map<String, dynamic>;
-    return BaseResponse.fromMap<dynamic>(response);
+    return BaseResponse.fromMap<Kyc>(response);
   }
 
   // Cart and Checkout

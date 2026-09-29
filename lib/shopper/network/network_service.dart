@@ -119,8 +119,9 @@ abstract class ShopperNetworkClient {
   @POST("/store/auth/reset-password")
   Future<dynamic> resetPassword(@Body() Map<String, dynamic> body);
 
+  // Multipart, because the driving license is uploaded as a file.
   @POST("/store/auth/kyc")
-  Future<dynamic> submitKyc(@Body() Map<String, dynamic> body);
+  Future<dynamic> submitKyc(@Body() FormData body);
 
   // Cart and Checkout
 
