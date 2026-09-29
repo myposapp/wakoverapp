@@ -6,34 +6,40 @@ part 'cart_model.mapper.dart';
 class CartItem with CartItemMappable {
   const CartItem({
     this.id,
+    this.productId,
+    this.variantId,
     this.name,
     this.qty,
     this.price,
+    this.originalPrice,
     this.unit,
-    this.images,
     this.image,
+    this.images,
     this.variant,
   });
 
-  // The product id.
+  // The cart line's own id; use [productId] for cart operations.
   final String? id;
+  @MappableField(key: 'product_id')
+  final String? productId;
+  @MappableField(key: 'variant_id')
+  final String? variantId;
   final String? name;
   final num? qty;
+  // Unit price after discounts.
   final num? price;
+  // Unit price before discounts.
+  @MappableField(key: 'original_price')
+  final num? originalPrice;
   final String? unit;
-  final dynamic images;
   final dynamic image;
+  final dynamic images;
   final dynamic variant;
-
-  String? get variantId => variant is Map ? variant['id']?.toString() : null;
 
   String? get variantName =>
       variant is Map ? variant['name']?.toString() : null;
 
-  num get unitPrice {
-    final variantPrice = variant is Map ? variant['price'] : null;
-    return (price ?? 0) + (variantPrice is num ? variantPrice : 0);
-  }
+  num get unitPrice => price ?? 0;
 
   num get lineTotal => unitPrice * (qty ?? 1);
 

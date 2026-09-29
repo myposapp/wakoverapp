@@ -49,8 +49,10 @@ abstract final class MerchantTab {
 GoRouter createAppRouter(AppProvider appProvider) {
   return GoRouter(
     initialLocation: AppRoutes.splash,
-    // Re-run the redirect once saved preferences have loaded.
-    refreshListenable: appProvider,
+    // Only re-run the redirect when preferences finish loading. Refreshing on
+    // every AppProvider change (e.g. each toast) races with pops and can
+    // re-open the page that was just closed.
+    refreshListenable: _PreferencesLoadedListenable(appProvider),
     redirect: (context, state) => _startupRedirect(appProvider, state),
     routes: [
       GoRoute(
@@ -85,6 +87,28 @@ GoRouter createAppRouter(AppProvider appProvider) {
       _buyerShell(),
     ],
   );
+}
+
+/// Notifies once [AppProvider.hasLoadedPreferences] flips to true.
+class _PreferencesLoadedListenable extends ChangeNotifier {
+  _PreferencesLoadedListenable(this._appProvider) {
+    _appProvider.addListener(_onAppProviderChanged);
+  }
+
+  final AppProvider _appProvider;
+  bool _hasLoaded = false;
+
+  void _onAppProviderChanged() {
+    if (_hasLoaded || !_appProvider.hasLoadedPreferences) return;
+    _hasLoaded = true;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _appProvider.removeListener(_onAppProviderChanged);
+    super.dispose();
+  }
 }
 
 /// Returning users skip the splash and land on their home screen once

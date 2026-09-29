@@ -26,7 +26,7 @@ class CartProvider extends ChangeNotifier {
     return items
         .where(
           (i) =>
-              i.id == productId &&
+              i.productId == productId &&
               (variantId == null || i.variantId == variantId),
         )
         .fold<int>(0, (sum, i) => sum + (i.qty ?? 0).toInt());

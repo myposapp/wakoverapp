@@ -24,6 +24,20 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
 
   static String? _$id(CartItem v) => v.id;
   static const Field<CartItem, String> _f$id = Field('id', _$id, opt: true);
+  static String? _$productId(CartItem v) => v.productId;
+  static const Field<CartItem, String> _f$productId = Field(
+    'productId',
+    _$productId,
+    key: r'product_id',
+    opt: true,
+  );
+  static String? _$variantId(CartItem v) => v.variantId;
+  static const Field<CartItem, String> _f$variantId = Field(
+    'variantId',
+    _$variantId,
+    key: r'variant_id',
+    opt: true,
+  );
   static String? _$name(CartItem v) => v.name;
   static const Field<CartItem, String> _f$name = Field(
     'name',
@@ -38,22 +52,29 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
     _$price,
     opt: true,
   );
+  static num? _$originalPrice(CartItem v) => v.originalPrice;
+  static const Field<CartItem, num> _f$originalPrice = Field(
+    'originalPrice',
+    _$originalPrice,
+    key: r'original_price',
+    opt: true,
+  );
   static String? _$unit(CartItem v) => v.unit;
   static const Field<CartItem, String> _f$unit = Field(
     'unit',
     _$unit,
     opt: true,
   );
-  static dynamic _$images(CartItem v) => v.images;
-  static const Field<CartItem, dynamic> _f$images = Field(
-    'images',
-    _$images,
-    opt: true,
-  );
   static dynamic _$image(CartItem v) => v.image;
   static const Field<CartItem, dynamic> _f$image = Field(
     'image',
     _$image,
+    opt: true,
+  );
+  static dynamic _$images(CartItem v) => v.images;
+  static const Field<CartItem, dynamic> _f$images = Field(
+    'images',
+    _$images,
     opt: true,
   );
   static dynamic _$variant(CartItem v) => v.variant;
@@ -66,24 +87,30 @@ class CartItemMapper extends ClassMapperBase<CartItem> {
   @override
   final MappableFields<CartItem> fields = const {
     #id: _f$id,
+    #productId: _f$productId,
+    #variantId: _f$variantId,
     #name: _f$name,
     #qty: _f$qty,
     #price: _f$price,
+    #originalPrice: _f$originalPrice,
     #unit: _f$unit,
-    #images: _f$images,
     #image: _f$image,
+    #images: _f$images,
     #variant: _f$variant,
   };
 
   static CartItem _instantiate(DecodingData data) {
     return CartItem(
       id: data.dec(_f$id),
+      productId: data.dec(_f$productId),
+      variantId: data.dec(_f$variantId),
       name: data.dec(_f$name),
       qty: data.dec(_f$qty),
       price: data.dec(_f$price),
+      originalPrice: data.dec(_f$originalPrice),
       unit: data.dec(_f$unit),
-      images: data.dec(_f$images),
       image: data.dec(_f$image),
+      images: data.dec(_f$images),
       variant: data.dec(_f$variant),
     );
   }
@@ -147,12 +174,15 @@ abstract class CartItemCopyWith<$R, $In extends CartItem, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   $R call({
     String? id,
+    String? productId,
+    String? variantId,
     String? name,
     num? qty,
     num? price,
+    num? originalPrice,
     String? unit,
-    dynamic images,
     dynamic image,
+    dynamic images,
     dynamic variant,
   });
   CartItemCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
@@ -169,34 +199,43 @@ class _CartItemCopyWithImpl<$R, $Out>
   @override
   $R call({
     Object? id = $none,
+    Object? productId = $none,
+    Object? variantId = $none,
     Object? name = $none,
     Object? qty = $none,
     Object? price = $none,
+    Object? originalPrice = $none,
     Object? unit = $none,
-    Object? images = $none,
     Object? image = $none,
+    Object? images = $none,
     Object? variant = $none,
   }) => $apply(
     FieldCopyWithData({
       if (id != $none) #id: id,
+      if (productId != $none) #productId: productId,
+      if (variantId != $none) #variantId: variantId,
       if (name != $none) #name: name,
       if (qty != $none) #qty: qty,
       if (price != $none) #price: price,
+      if (originalPrice != $none) #originalPrice: originalPrice,
       if (unit != $none) #unit: unit,
-      if (images != $none) #images: images,
       if (image != $none) #image: image,
+      if (images != $none) #images: images,
       if (variant != $none) #variant: variant,
     }),
   );
   @override
   CartItem $make(CopyWithData data) => CartItem(
     id: data.get(#id, or: $value.id),
+    productId: data.get(#productId, or: $value.productId),
+    variantId: data.get(#variantId, or: $value.variantId),
     name: data.get(#name, or: $value.name),
     qty: data.get(#qty, or: $value.qty),
     price: data.get(#price, or: $value.price),
+    originalPrice: data.get(#originalPrice, or: $value.originalPrice),
     unit: data.get(#unit, or: $value.unit),
-    images: data.get(#images, or: $value.images),
     image: data.get(#image, or: $value.image),
+    images: data.get(#images, or: $value.images),
     variant: data.get(#variant, or: $value.variant),
   );
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'hub_image.dart';
@@ -205,15 +206,23 @@ class HubInfoRow extends StatelessWidget {
   }
 }
 
+/// Opens [url] in the browser. If that fails, the link is copied so the
+/// user can still paste it somewhere.
 Future<void> openExternalUrl(BuildContext context, String url) async {
-  final launched = await launchUrl(
-    Uri.parse(url),
-    mode: LaunchMode.externalApplication,
-  );
-  if (!launched && context.mounted) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Could not open the link')));
+  var launched = false;
+  try {
+    launched = await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    );
+  } catch (e) {
+    debugPrint('Could not open $url: $e');
+  }
+  if (launched || !context.mounted) return;
+
+  await Clipboard.setData(ClipboardData(text: url));
+  if (context.mounted) {
+    showHubSnack(context, "Couldn't open the browser. Link copied instead.");
   }
 }
 

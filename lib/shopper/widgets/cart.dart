@@ -94,22 +94,22 @@ class _CartSheetState extends State<CartSheet> {
                     separatorBuilder: (_, _) => const SizedBox(height: 12),
                     itemBuilder: (context, idx) => _CartLine(
                       item: items[idx],
-                      isBusy: cart.busyProductId == items[idx].id,
+                      isBusy: cart.busyProductId == items[idx].productId,
                       onIncrease: () => _run(
                         cart.add(
-                          items[idx].id ?? '',
+                          items[idx].productId ?? '',
                           variantId: items[idx].variantId,
                         ),
                       ),
                       onDecrease: () => _run(
                         cart.remove(
-                          items[idx].id ?? '',
+                          items[idx].productId ?? '',
                           variantId: items[idx].variantId,
                         ),
                       ),
                       onRemove: () => _run(
                         cart.remove(
-                          items[idx].id ?? '',
+                          items[idx].productId ?? '',
                           variantId: items[idx].variantId,
                           removeAll: true,
                         ),
@@ -176,7 +176,7 @@ class _CartLine extends StatelessWidget {
     final variantName = item.variantName;
 
     return Dismissible(
-      key: ValueKey('${item.id}-${item.variantId}'),
+      key: ValueKey(item.id ?? '${item.productId}-${item.variantId}'),
       direction: DismissDirection.endToStart,
       onDismissed: (_) => onRemove(),
       background: Container(
@@ -220,12 +220,27 @@ class _CartLine extends StatelessWidget {
                         color: hubMutedText(context),
                       ),
                     ),
-                  Text(
-                    formatNaira(item.unitPrice),
-                    style: TextStyle(
-                      color: hubMutedText(context),
-                      fontSize: 12,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        formatNaira(item.unitPrice),
+                        style: TextStyle(
+                          color: hubMutedText(context),
+                          fontSize: 12,
+                        ),
+                      ),
+                      if ((item.originalPrice ?? 0) > item.unitPrice) ...[
+                        const SizedBox(width: 6),
+                        Text(
+                          formatNaira(item.originalPrice),
+                          style: TextStyle(
+                            color: hubMutedText(context),
+                            fontSize: 10,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ],
               ),

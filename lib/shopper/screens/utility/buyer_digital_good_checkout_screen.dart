@@ -161,13 +161,26 @@ class _BuyerDigitalGoodCheckoutScreenState
     final checkoutUrl = result['checkout_url']?.toString();
 
     if (checkoutUrl != null && checkoutUrl.isNotEmpty) {
-      final launched = await launchUrl(
-        Uri.parse(checkoutUrl),
-        mode: LaunchMode.externalApplication,
-      );
+      var launched = false;
+      try {
+        launched = await launchUrl(
+          Uri.parse(checkoutUrl),
+          mode: LaunchMode.externalApplication,
+        );
+      } catch (e) {
+        debugPrint('Could not open $checkoutUrl: $e');
+      }
       if (!mounted) return;
       if (!launched) {
-        _showMessage("Could not open the payment page");
+        // The order already exists, so keep the payment link reachable.
+        await _showResultDialog(
+          title: "Complete your payment",
+          message:
+              "We couldn't open your browser. Open this link to pay for "
+              "your order:",
+          details: {'Payment link': checkoutUrl},
+        );
+        if (mounted) Navigator.of(context).pop(true);
         return;
       }
       await _showResultDialog(
