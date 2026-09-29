@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import 'package:provider/provider.dart';
-import '../../providers/app_provider.dart';
-import '../../theme/app_theme.dart';
+import 'package:wakover/providers/app_provider.dart';
+import 'package:wakover/theme/app_theme.dart';
 
 class UserSettingsScreen extends StatefulWidget {
   const UserSettingsScreen({super.key});
@@ -42,6 +44,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
     }
     final verified = await showModalBottomSheet<bool>(
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => const _OtpSheet(),
@@ -61,7 +64,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_rounded),
-          onPressed: () => provider.navigateTo('buyer_account'),
+          onPressed: () => context.pop(),
         ),
         title: const Text('Settings'),
       ),
@@ -212,7 +215,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => provider.navigateTo('buyer_marketplace'),
+                      onPressed: () => context.push(AppRoutes.marketplace),
                       child: const Text(
                         'Change',
                         style: TextStyle(fontWeight: FontWeight.bold),

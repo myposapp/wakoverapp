@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../models/order.dart';
-import '../widgets/bottom_nav.dart';
 
 class MerchantOrdersScreen extends StatelessWidget {
   const MerchantOrdersScreen({super.key});
@@ -116,9 +115,6 @@ class MerchantOrdersScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: const MerchantBottomNavBar(
-        activeRoute: 'merchant_orders',
       ),
     );
   }

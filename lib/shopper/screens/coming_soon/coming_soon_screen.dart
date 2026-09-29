@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:wakover/shopper/widgets/bottom_nav_bar.dart';
-import '../../theme/app_theme.dart';
+import 'package:wakover/theme/app_theme.dart';
 
 class ComingSoonScreen extends StatelessWidget {
-  final String activeRoute;
   final String title;
   final String subtitle;
   final IconData icon;
 
   const ComingSoonScreen({
     super.key,
-    required this.activeRoute,
     required this.title,
     required this.subtitle,
     required this.icon,
@@ -79,7 +76,6 @@ class ComingSoonScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BuyerBottomNavBar(activeRoute: activeRoute),
     );
   }
 }

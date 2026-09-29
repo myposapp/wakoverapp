@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../models/product.dart';
-import '../widgets/bottom_nav.dart';
 
 class MerchantInventoryScreen extends StatelessWidget {
   const MerchantInventoryScreen({super.key});
@@ -107,9 +106,6 @@ class MerchantInventoryScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: const MerchantBottomNavBar(
-        activeRoute: 'merchant_inventory',
       ),
     );
   }
@@ -231,6 +227,7 @@ class MerchantInventoryScreen extends StatelessWidget {
     int current = product.stock;
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) => StatefulBuilder(

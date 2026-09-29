@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wakover/shopper/widgets/bottom_nav_bar.dart';
+import 'package:wakover/shopper/repositories/saved_items_repository.dart';
+import 'package:wakover/shopper/screens/saved/saved_items_screen.dart';
 import 'package:wakover/shopper/widgets/cart.dart';
-import '../../providers/app_provider.dart';
-import '../../theme/app_theme.dart';
-import '../../models/product.dart';
-import '../../models/store_hub.dart';
+import 'package:wakover/providers/app_provider.dart';
+import 'package:wakover/theme/app_theme.dart';
+import 'package:wakover/models/product.dart';
+import 'package:wakover/models/store_hub.dart';
 
-class BuyerStorefrontScreen extends StatelessWidget {
+class BuyerStorefrontScreen extends StatefulWidget {
   const BuyerStorefrontScreen({super.key});
+
+  @override
+  State<BuyerStorefrontScreen> createState() => _BuyerStorefrontScreenState();
+}
+
+class _BuyerStorefrontScreenState extends State<BuyerStorefrontScreen> {
+  // Ids of products saved for the current user and store.
+  late final Stream<Set<String>> _savedIds = context
+      .read<SavedItemsRepository>()
+      .watchSavedItems()
+      .map((items) => items.map((item) => item.productId).toSet());
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +33,6 @@ class BuyerStorefrontScreen extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(title: const Text('Storefront')),
         body: const Center(child: Text('No merchant vault selected yet.')),
-        bottomNavigationBar: const BuyerBottomNavBar(
-          activeRoute: 'buyer_storefront',
-        ),
       );
     }
 
@@ -131,20 +140,30 @@ class BuyerStorefrontScreen extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     // 2-Column Product Grid
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: filteredProducts.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 0.68,
-                          ),
-                      itemBuilder: (context, idx) {
-                        final product = filteredProducts[idx];
-                        return _buildProductCard(context, product);
+                    StreamBuilder<Set<String>>(
+                      stream: _savedIds,
+                      builder: (context, snapshot) {
+                        final savedIds = snapshot.data ?? const <String>{};
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: filteredProducts.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                childAspectRatio: 0.68,
+                              ),
+                          itemBuilder: (context, idx) {
+                            final product = filteredProducts[idx];
+                            return _buildProductCard(
+                              context,
+                              product,
+                              isSaved: savedIds.contains(product.id),
+                            );
+                          },
+                        );
                       },
                     ),
                   ],
@@ -153,9 +172,6 @@ class BuyerStorefrontScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: const BuyerBottomNavBar(
-        activeRoute: 'buyer_storefront',
       ),
     );
   }
@@ -363,9 +379,12 @@ class BuyerStorefrontScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProductCard(BuildContext context, Product product) {
+  Widget _buildProductCard(
+    BuildContext context,
+    Product product, {
+    required bool isSaved,
+  }) {
     final provider = context.read<AppProvider>();
-    final isSaved = provider.wishlist.contains(product.id);
     final isSoldOut = product.status == 'out_of_stock';
 
     return Container(
@@ -395,7 +414,13 @@ class BuyerStorefrontScreen extends StatelessWidget {
                 top: 4,
                 right: 4,
                 child: GestureDetector(
-                  onTap: () => provider.toggleWishlist(product.id),
+                  onTap: () => toggleSavedItem(context, (
+                    productId: product.id,
+                    name: product.name,
+                    image: product.image,
+                    category: product.category,
+                    price: product.price,
+                  )),
                   child: Container(
                     padding: const EdgeInsets.all(4),
                     decoration: const BoxDecoration(
@@ -505,6 +530,7 @@ class BuyerStorefrontScreen extends StatelessWidget {
   void _openCart(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) => const CartSheet(),

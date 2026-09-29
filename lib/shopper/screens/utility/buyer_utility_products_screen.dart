@@ -10,7 +10,7 @@ import 'package:wakover/common/widgets/loading_shimmer_widget.dart';
 import 'package:wakover/shopper/constants/constants.dart';
 import 'package:wakover/shopper/models/digital_good_model.dart';
 import 'package:wakover/shopper/models/utility_customer_account_model.dart';
-import 'package:wakover/shopper/screens/buyer_digital_good_checkout_screen.dart';
+import 'package:wakover/shopper/screens/utility/buyer_digital_good_checkout_screen.dart';
 import 'package:wakover/theme/app_theme.dart';
 
 class BuyerUtilityProductsScreen extends StatefulWidget {

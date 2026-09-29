@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/app_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import '../../theme/app_theme.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -48,7 +48,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      context.read<AppProvider>().navigateTo('role_select');
+      context.go(AppRoutes.roleSelect);
     }
   }
 
@@ -60,7 +60,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              context.read<AppProvider>().navigateTo('role_select');
+              context.go(AppRoutes.roleSelect);
             },
             child: const Text('Skip'),
           ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import 'package:provider/provider.dart';
-import 'package:wakover/shopper/widgets/bottom_nav_bar.dart';
 import 'package:wakover/shopper/widgets/cart.dart';
 import 'package:wakover/shopper/widgets/utility_bills.dart';
-import '../../providers/app_provider.dart';
-import '../../theme/app_theme.dart';
+import 'package:wakover/providers/app_provider.dart';
+import 'package:wakover/theme/app_theme.dart';
 
 class _HubAction {
   final String label;
@@ -42,33 +43,32 @@ class BuyerHubScreen extends StatelessWidget {
       _HubAction(
         label: 'Orders',
         icon: Icons.receipt_long_rounded,
-        onTap: () => provider.showToast('Orders is not available yet.'),
+        onTap: () => context.go(AppRoutes.hubOrders),
       ),
       _HubAction(
         label: 'Bookings',
         icon: Icons.event_available_rounded,
-        onTap: () => provider.showToast('Bookings is not available yet.'),
+        onTap: () => context.go(AppRoutes.hubBookings),
       ),
       _HubAction(
         label: 'Payment',
         icon: Icons.credit_card_rounded,
-        onTap: () => provider.showToast('Payment is not available yet.'),
+        onTap: () => context.go(AppRoutes.hubPayments),
       ),
       _HubAction(
         label: 'Transactions',
         icon: Icons.swap_horiz_rounded,
-        onTap: () => provider.showToast('Transactions is not available yet.'),
+        onTap: () => context.go(AppRoutes.hubTransactions),
       ),
       _HubAction(
         label: 'Saved',
         icon: Icons.bookmark_border_rounded,
-        onTap: () => provider.showToast('Saved is not available yet.'),
+        onTap: () => context.go(AppRoutes.hubSaved),
       ),
       _HubAction(
         label: 'Affiliate Codes',
         icon: Icons.percent_rounded,
-        onTap: () =>
-            provider.showToast('Affiliate Codes is not available yet.'),
+        onTap: () => context.go(AppRoutes.hubAffiliateCodes),
       ),
     ];
 
@@ -164,7 +164,6 @@ class BuyerHubScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const BuyerBottomNavBar(activeRoute: 'buyer_hub'),
     );
   }
 
@@ -211,6 +210,7 @@ class BuyerHubScreen extends StatelessWidget {
   void _openCart(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) => const CartSheet(),
@@ -220,6 +220,7 @@ class BuyerHubScreen extends StatelessWidget {
   void _openUtility(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       enableDrag: false,
       isScrollControlled: true,
       builder: (ctx) => const UtilityBillsWidget(),

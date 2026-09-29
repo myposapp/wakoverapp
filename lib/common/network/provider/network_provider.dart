@@ -21,14 +21,20 @@ class NetworkProvider {
   ShopperNetworkRepo get shopperNetworkRepo =>
       _shopperNetworkRepo ??= ShopperNetworkRepo(ShopperNetworkClient(_dio));
 
+  String? get accessToken => _accessToken;
+  bool get isSignedIn => _accessToken != null;
+
+  /// The connected store's web origin (e.g. https://store.example.com). The
+  /// API resolves which store a request belongs to from this.
+  String? get storeOrigin => _storeOrigin;
+
   void _initialize(PreferenceProvider prefs) async {
     _prefs = prefs;
     _dio = Dio(BaseOptions(validateStatus: (_) => true));
 
     _accessToken = prefs.getString(AppConfig.accessTokenKey);
     _cartToken = prefs.getString(AppConfig.cartTokenKey);
-    _storeOrigin =
-        "https://jonickacademy.bokustore.com"; //prefs.getString(AppConfig.storeOriginKey);
+    _storeOrigin = prefs.getString(AppConfig.storeOriginKey);
 
     _dio.interceptors.add(
       InterceptorsWrapper(

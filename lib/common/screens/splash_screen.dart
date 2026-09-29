@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
-import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller
         .animateTo(1.0, duration: const Duration(milliseconds: 400))
         .then((_) {
-          context.read<AppProvider>().navigateTo('onboarding');
+          context.go(AppRoutes.onboarding);
         });
   }
 

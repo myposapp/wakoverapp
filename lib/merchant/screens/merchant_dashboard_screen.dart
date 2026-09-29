@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
-import '../widgets/bottom_nav.dart';
 
 class MerchantDashboardScreen extends StatelessWidget {
   const MerchantDashboardScreen({super.key});
@@ -360,7 +361,7 @@ class MerchantDashboardScreen extends StatelessWidget {
                     context,
                     label: 'New Promo',
                     icon: Icons.campaign_rounded,
-                    onTap: () => provider.navigateTo('merchant_campaigns'),
+                    onTap: () => context.go(AppRoutes.merchantCampaigns),
                   ),
                   const SizedBox(width: 8),
                   _buildActionBtn(
@@ -452,9 +453,6 @@ class MerchantDashboardScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: const MerchantBottomNavBar(
-        activeRoute: 'merchant_dashboard',
       ),
     );
   }
@@ -626,6 +624,7 @@ class MerchantDashboardScreen extends StatelessWidget {
     int qty = product.stock;
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) => StatefulBuilder(
         builder: (context, setState) => Container(

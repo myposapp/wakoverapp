@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
@@ -22,7 +24,7 @@ class _ConnectStoreScreenState extends State<ConnectStoreScreen> {
     Future.delayed(const Duration(milliseconds: 700), () {
       if (mounted) {
         setState(() => _isLoading = false);
-        context.read<AppProvider>().navigateTo('merchant_dashboard');
+        context.go(AppRoutes.merchantDashboard);
         context.read<AppProvider>().showToast(
           'Connected to ${_domainController.text}.wakover.com merchant node.',
         );

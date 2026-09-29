@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import 'package:provider/provider.dart';
-import '../../providers/app_provider.dart';
-import '../../theme/app_theme.dart';
-import '../../models/store_hub.dart';
-import '../../common/screens/qr_scanner_screen.dart';
+import 'package:wakover/common/constants/config.dart';
+import 'package:wakover/common/network/provider/network_provider.dart';
+import 'package:wakover/common/utils/store_origin.dart';
+import 'package:wakover/providers/app_provider.dart';
+import 'package:wakover/theme/app_theme.dart';
+import 'package:wakover/models/store_hub.dart';
+import 'package:wakover/common/screens/qr_scanner_screen.dart';
 
 class BuyerMarketplaceScreen extends StatefulWidget {
   const BuyerMarketplaceScreen({super.key});
@@ -44,14 +49,34 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
     return stores.first;
   }
 
+  /// Persists the store address so API requests are scoped to it. Returns
+  /// false (after telling the user) when [input] isn't a web address.
+  bool _connectToOrigin(String input) {
+    final origin = normalizeStoreOrigin(input);
+    if (origin == null) {
+      context.read<AppProvider>().showToast(
+        "That doesn't look like a store web address.",
+      );
+      return false;
+    }
+    context.read<NetworkProvider>().updateStoreOrigin(origin);
+    return true;
+  }
+
+  void _openStore(StoreHub store) {
+    context.read<AppProvider>().selectStore(store);
+    context.go(AppRoutes.buyerCatalog);
+  }
+
   Future<void> _onScanQr() async {
     final result = await Navigator.of(
       context,
     ).push<String>(MaterialPageRoute(builder: (_) => const QrScannerScreen()));
     if (!mounted || result == null || result.isEmpty) return;
+    if (!_connectToOrigin(result)) return;
     final provider = context.read<AppProvider>();
     final store = _matchStore(result, provider.stores);
-    if (store != null) provider.selectStore(store);
+    if (store != null) _openStore(store);
     provider.showToast('Connected to $result via QR scan.');
   }
 
@@ -158,9 +183,10 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
     );
 
     if (!mounted || handle == null || handle.trim().isEmpty) return;
+    if (!_connectToOrigin(handle)) return;
     final provider = context.read<AppProvider>();
     final store = _matchStore(handle, provider.stores);
-    if (store != null) provider.selectStore(store);
+    if (store != null) _openStore(store);
     provider.showToast('Connected to ${handle.trim()}');
     // provider.showToast('Connected to ${handle.trim()}.wakover.com.');
   }
@@ -175,7 +201,9 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
         leading: provider.selectedStore != null
             ? IconButton(
                 icon: const Icon(Icons.arrow_back_rounded),
-                onPressed: () => provider.navigateTo('buyer_storefront'),
+                onPressed: () => context.canPop()
+                    ? context.pop()
+                    : context.go(AppRoutes.buyerCatalog),
               )
             : null,
         title: const Text('Wakover'),
@@ -485,7 +513,10 @@ class _BuyerMarketplaceScreenState extends State<BuyerMarketplaceScreen> {
               ),
               ElevatedButton.icon(
                 onPressed: () {
-                  provider.selectStore(store);
+                  context.read<NetworkProvider>().updateStoreOrigin(
+                    AppConfig.mockStoreOrigin,
+                  );
+                  _openStore(store);
                   provider.showToast('Opened ${store.name}');
                 },
                 style: ElevatedButton.styleFrom(

@@ -26,8 +26,8 @@ class CartItem {
 }
 
 class AppProvider extends ChangeNotifier {
-  // Navigation & Preferences
-  String _currentRoute = 'splash';
+  // Preferences
+  bool _hasLoadedPreferences = false;
   UserRole _role = UserRole.merchant;
   bool _isDarkMode = false;
   String _activeDepot = 'Apex Depot';
@@ -50,7 +50,7 @@ class AppProvider extends ChangeNotifier {
   String? _toastMessage;
 
   // Getters
-  String get currentRoute => _currentRoute;
+  bool get hasLoadedPreferences => _hasLoadedPreferences;
   UserRole get role => _role;
   bool get isDarkMode => _isDarkMode;
   String get activeDepot => _activeDepot;
@@ -282,11 +282,6 @@ class AppProvider extends ChangeNotifier {
   }
 
   // State Mutators
-  void navigateTo(String route) {
-    _currentRoute = route;
-    notifyListeners();
-  }
-
   void setRole(UserRole role) {
     _role = role;
     _hasCompletedIntro = true;
@@ -296,7 +291,6 @@ class AppProvider extends ChangeNotifier {
 
   void selectStore(StoreHub store) {
     _selectedStoreId = store.id;
-    _currentRoute = 'buyer_storefront';
     _saveToPreferences();
     notifyListeners();
   }
@@ -304,7 +298,6 @@ class AppProvider extends ChangeNotifier {
   void logout() {
     _hasCompletedIntro = false;
     _selectedStoreId = null;
-    _currentRoute = 'role_select';
     _saveToPreferences();
     notifyListeners();
   }
@@ -314,7 +307,6 @@ class AppProvider extends ChangeNotifier {
     _wishlist.clear();
     _hasCompletedIntro = false;
     _selectedStoreId = null;
-    _currentRoute = 'splash';
     _saveToPreferences();
     notifyListeners();
   }
@@ -452,20 +444,12 @@ class AppProvider extends ChangeNotifier {
         _role = UserRole.merchant;
       }
       _selectedStoreId = prefs.getString('selected_store_id');
-
-      if (_hasCompletedIntro) {
-        if (_role == UserRole.buyer) {
-          _currentRoute =
-              _selectedStoreId != null ? 'buyer_storefront' : 'buyer_marketplace';
-        } else {
-          _currentRoute = 'connect_store';
-        }
-      }
-
-      notifyListeners();
     } catch (_) {
       // Fallback gracefully to default memory data
     }
+    // The router waits for this before sending returning users past splash.
+    _hasLoadedPreferences = true;
+    notifyListeners();
   }
 
   Future<void> _saveToPreferences() async {

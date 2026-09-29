@@ -5,24 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:wakover/common/database/app_database.dart';
 import 'package:wakover/common/network/provider/network_provider.dart';
 import 'package:wakover/common/providers/preferences_provider.dart';
+import 'package:wakover/shopper/repositories/saved_items_repository.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_router.dart';
 import 'providers/app_provider.dart';
 import 'theme/app_theme.dart';
-import 'common/screens/splash_screen.dart';
-import 'common/screens/onboarding_screen.dart';
-import 'common/screens/role_select_screen.dart';
-import 'merchant/screens/connect_store_screen.dart';
-import 'merchant/screens/merchant_dashboard_screen.dart';
-import 'merchant/screens/merchant_inventory_screen.dart';
-import 'merchant/screens/merchant_orders_screen.dart';
-import 'merchant/screens/merchant_campaigns_screen.dart';
-import 'shopper/screens/buyer_marketplace_screen.dart';
-import 'shopper/screens/buyer_storefront_screen.dart';
-import 'shopper/screens/buyer_hub_screen.dart';
-import 'shopper/screens/buyer_account_screen.dart';
-import 'shopper/screens/user_settings_screen.dart';
-import 'shopper/screens/coming_soon_screen.dart';
 
 import 'main.init.dart';
 
@@ -36,163 +26,100 @@ void main() async {
   }
 
   final prefProvider = await PreferenceProvider.create();
+  final appProvider = AppProvider();
+  final router = createAppRouter(appProvider);
 
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AppProvider()),
+        ChangeNotifierProvider.value(value: appProvider),
         Provider(create: (_) => NetworkProvider(prefProvider), lazy: false),
         Provider.value(value: prefProvider),
+        Provider(create: (_) => AppDatabase(), dispose: (_, db) => db.close()),
+        ProxyProvider2<AppDatabase, NetworkProvider, SavedItemsRepository>(
+          update: (_, db, network, previous) =>
+              previous ?? SavedItemsRepository(db, network),
+        ),
       ],
-      child: const WakoverCommerceApp(),
+      child: WakoverCommerceApp(router: router),
     ),
   );
 }
 
 class WakoverCommerceApp extends StatelessWidget {
-  const WakoverCommerceApp({super.key});
+  const WakoverCommerceApp({super.key, required this.router});
+
+  final GoRouter router;
 
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<AppProvider>();
 
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Wakover Commerce',
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: provider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: Scaffold(
-        body: Stack(
-          children: [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 260),
-              switchInCurve: Curves.easeOutCubic,
-              switchOutCurve: Curves.easeInCubic,
-              transitionBuilder: (child, animation) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, 0.04),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  ),
-                );
-              },
-              child: _buildScreen(provider.currentRoute),
-            ),
+      // Overlays the toast banner above every route.
+      builder: (context, child) => Stack(
+        children: [
+          child!,
 
-            // Top Toast Notification Banner
-            if (provider.toastMessage != null)
-              Positioned(
-                top: 50,
-                left: 20,
-                right: 20,
-                child: TweenAnimationBuilder<double>(
-                  duration: const Duration(milliseconds: 250),
-                  tween: Tween(begin: 0.0, end: 1.0),
-                  builder: (context, value, child) {
-                    return Opacity(
-                      opacity: value,
-                      child: Transform.translate(
-                        offset: Offset(0, (1 - value) * -20),
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: Material(
-                    elevation: 8,
-                    borderRadius: BorderRadius.circular(16),
-                    color: AppTheme.navyDark,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.check_circle_rounded,
-                            color: AppTheme.accentCyan,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              provider.toastMessage!,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
+          // Top Toast Notification Banner
+          if (provider.toastMessage != null)
+            Positioned(
+              top: 50,
+              left: 20,
+              right: 20,
+              child: TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 250),
+                tween: Tween(begin: 0.0, end: 1.0),
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: Transform.translate(
+                      offset: Offset(0, (1 - value) * -20),
+                      child: child,
+                    ),
+                  );
+                },
+                child: Material(
+                  elevation: 8,
+                  borderRadius: BorderRadius.circular(16),
+                  color: AppTheme.navyDark,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.check_circle_rounded,
+                          color: AppTheme.accentCyan,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            provider.toastMessage!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
-  }
-
-  Widget _buildScreen(String route) {
-    switch (route) {
-      case 'splash':
-        return const SplashScreen(key: ValueKey('splash'));
-      case 'onboarding':
-        return const OnboardingScreen(key: ValueKey('onboarding'));
-      case 'role_select':
-        return const RoleSelectScreen(key: ValueKey('role_select'));
-      case 'connect_store':
-        return const ConnectStoreScreen(key: ValueKey('connect_store'));
-      case 'merchant_dashboard':
-        return const MerchantDashboardScreen(
-          key: ValueKey('merchant_dashboard'),
-        );
-      case 'merchant_inventory':
-        return const MerchantInventoryScreen(
-          key: ValueKey('merchant_inventory'),
-        );
-      case 'merchant_orders':
-        return const MerchantOrdersScreen(key: ValueKey('merchant_orders'));
-      case 'merchant_campaigns':
-        return const MerchantCampaignsScreen(
-          key: ValueKey('merchant_campaigns'),
-        );
-      case 'buyer_marketplace':
-        return const BuyerMarketplaceScreen(key: ValueKey('buyer_marketplace'));
-      case 'buyer_storefront':
-        return const BuyerStorefrontScreen(key: ValueKey('buyer_storefront'));
-      case 'buyer_hub':
-        return const BuyerHubScreen(key: ValueKey('buyer_hub'));
-      case 'buyer_web':
-        return const ComingSoonScreen(
-          key: ValueKey('buyer_web'),
-          activeRoute: 'buyer_web',
-          title: 'Web',
-          subtitle: 'Your branded storefront website is on its way.',
-          icon: Icons.language_rounded,
-        );
-      case 'buyer_utility':
-        return const ComingSoonScreen(
-          key: ValueKey('buyer_utility'),
-          activeRoute: 'buyer_utility',
-          title: 'Utility',
-          subtitle: 'Handy merchant utility tools are on their way.',
-          icon: Icons.build_rounded,
-        );
-      case 'buyer_account':
-        return const BuyerAccountScreen(key: ValueKey('buyer_account'));
-      case 'user_settings':
-        return const UserSettingsScreen(key: ValueKey('user_settings'));
-      default:
-        return const SplashScreen(key: ValueKey('splash_default'));
-    }
   }
 }

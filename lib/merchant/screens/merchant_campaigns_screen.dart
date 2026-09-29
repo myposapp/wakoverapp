@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
 import '../../models/campaign.dart';
-import '../widgets/bottom_nav.dart';
 
 class MerchantCampaignsScreen extends StatelessWidget {
   const MerchantCampaignsScreen({super.key});
@@ -90,9 +89,6 @@ class MerchantCampaignsScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: const MerchantBottomNavBar(
-        activeRoute: 'merchant_campaigns',
       ),
     );
   }

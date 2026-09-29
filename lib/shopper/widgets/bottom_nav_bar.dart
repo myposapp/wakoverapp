@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/app_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_router.dart';
 import '../../theme/app_theme.dart';
 
 class BuyerBottomNavBar extends StatelessWidget {
-  final String activeRoute;
+  final StatefulNavigationShell navigationShell;
 
-  const BuyerBottomNavBar({super.key, required this.activeRoute});
+  const BuyerBottomNavBar({super.key, required this.navigationShell});
+
+  // Tapping the current tab again pops it back to its first page.
+  void _select(int tab) => navigationShell.goBranch(
+    tab,
+    initialLocation: tab == navigationShell.currentIndex,
+  );
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<AppProvider>();
+    final activeTab = navigationShell.currentIndex;
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
@@ -28,36 +34,36 @@ class BuyerBottomNavBar extends StatelessWidget {
                 context,
                 icon: Icons.language_rounded,
                 label: 'Web',
-                isActive: activeRoute == 'buyer_web',
-                onTap: () => provider.navigateTo('buyer_web'),
+                isActive: activeTab == BuyerTab.web,
+                onTap: () => _select(BuyerTab.web),
               ),
               _buildItem(
                 context,
                 icon: Icons.grid_view_rounded,
                 label: 'Catalog',
-                isActive: activeRoute == 'buyer_storefront',
-                onTap: () => provider.navigateTo('buyer_storefront'),
+                isActive: activeTab == BuyerTab.catalog,
+                onTap: () => _select(BuyerTab.catalog),
               ),
               /*_buildItem(
                 context,
                 icon: Icons.build_rounded,
                 label: 'Utility',
-                isActive: activeRoute == 'buyer_utility',
-                onTap: () => provider.navigateTo('buyer_utility'),
+                isActive: activeTab == BuyerTab.utility,
+                onTap: () => _select(BuyerTab.utility),
               ),*/
               _buildItem(
                 context,
                 icon: Icons.dashboard_customize_rounded,
                 label: 'Hub',
-                isActive: activeRoute == 'buyer_hub',
-                onTap: () => provider.navigateTo('buyer_hub'),
+                isActive: activeTab == BuyerTab.hub,
+                onTap: () => _select(BuyerTab.hub),
               ),
               _buildItem(
                 context,
                 icon: Icons.person_outline_rounded,
                 label: 'Account',
-                isActive: activeRoute == 'buyer_account',
-                onTap: () => provider.navigateTo('buyer_account'),
+                isActive: activeTab == BuyerTab.account,
+                onTap: () => _select(BuyerTab.account),
               ),
             ],
           ),

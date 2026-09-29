@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/app_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_router.dart';
 import '../../theme/app_theme.dart';
 
 class MerchantBottomNavBar extends StatelessWidget {
-  final String activeRoute;
+  final StatefulNavigationShell navigationShell;
 
-  const MerchantBottomNavBar({super.key, required this.activeRoute});
+  const MerchantBottomNavBar({super.key, required this.navigationShell});
+
+  // Tapping the current tab again pops it back to its first page.
+  void _select(int tab) => navigationShell.goBranch(
+    tab,
+    initialLocation: tab == navigationShell.currentIndex,
+  );
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<AppProvider>();
+    final activeTab = navigationShell.currentIndex;
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
@@ -26,29 +32,29 @@ class MerchantBottomNavBar extends StatelessWidget {
                 context,
                 icon: Icons.dashboard_rounded,
                 label: 'Dashboard',
-                isActive: activeRoute == 'merchant_dashboard',
-                onTap: () => provider.navigateTo('merchant_dashboard'),
+                isActive: activeTab == MerchantTab.dashboard,
+                onTap: () => _select(MerchantTab.dashboard),
               ),
               _buildItem(
                 context,
                 icon: Icons.inventory_2_rounded,
                 label: 'Inventory',
-                isActive: activeRoute == 'merchant_inventory',
-                onTap: () => provider.navigateTo('merchant_inventory'),
+                isActive: activeTab == MerchantTab.inventory,
+                onTap: () => _select(MerchantTab.inventory),
               ),
               _buildItem(
                 context,
                 icon: Icons.receipt_long_rounded,
                 label: 'Orders',
-                isActive: activeRoute == 'merchant_orders',
-                onTap: () => provider.navigateTo('merchant_orders'),
+                isActive: activeTab == MerchantTab.orders,
+                onTap: () => _select(MerchantTab.orders),
               ),
               _buildItem(
                 context,
                 icon: Icons.campaign_rounded,
                 label: 'Campaigns',
-                isActive: activeRoute == 'merchant_campaigns',
-                onTap: () => provider.navigateTo('merchant_campaigns'),
+                isActive: activeTab == MerchantTab.campaigns,
+                onTap: () => _select(MerchantTab.campaigns),
               ),
             ],
           ),

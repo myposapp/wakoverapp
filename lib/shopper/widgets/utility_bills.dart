@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wakover/shopper/constants/constants.dart';
-import 'package:wakover/shopper/screens/buyer_utility_products_screen.dart';
+import 'package:wakover/shopper/screens/utility/buyer_utility_products_screen.dart';
 import 'package:wakover/theme/app_theme.dart';
 
 class UtilityBillsWidget extends StatelessWidget {

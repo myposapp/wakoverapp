@@ -1,10 +1,14 @@
 import '../../common/network/model/base_api_response.dart';
 import '../../common/network/model/paginated_response.dart';
+import '../models/affiliate_code_model.dart';
 import '../models/auth_config_model.dart';
 import '../models/bank_model.dart';
+import '../models/bank_transfer_model.dart';
+import '../models/booking_model.dart';
 import '../models/cart_model.dart';
 import '../models/digital_good_model.dart';
 import '../models/payment_gateway_model.dart';
+import '../models/payment_model.dart';
 import '../models/platform_order_model.dart';
 import '../models/product_category_model.dart';
 import '../models/service_fee_model.dart';
@@ -12,8 +16,10 @@ import '../models/shipping_method_model.dart';
 import '../models/shopper_user_model.dart';
 import '../models/site_config_model.dart';
 import '../models/site_content_model.dart';
+import '../models/store_order_model.dart';
 import '../models/testimonial_model.dart';
 import '../models/utility_customer_account_model.dart';
+import '../models/wallet_transaction_model.dart';
 import 'network_service.dart';
 
 class ShopperNetworkRepo {
@@ -34,7 +40,7 @@ class ShopperNetworkRepo {
   }
 
   Future<PaginatedResponse<dynamic>> getProducts({
-    int page = 1,
+    int page = 0,
     int pageSize = 20,
     String? search,
     String? sort,
@@ -88,7 +94,7 @@ class ShopperNetworkRepo {
 
   Future<PaginatedResponse<dynamic>> getProductReviews(
     String productId, {
-    int page = 1,
+    int page = 0,
     int pageSize = 10,
   }) async {
     final query = {"page": page, "pageSize": pageSize};
@@ -429,14 +435,14 @@ class ShopperNetworkRepo {
 
   // Orders
 
-  Future<PaginatedResponse<dynamic>> getOrders({
-    int page = 1,
+  Future<PaginatedResponse<StoreOrder>> getOrders({
+    int page = 0,
     int pageSize = 10,
   }) async {
     final query = {"page": page, "pageSize": pageSize};
 
     final response = await _client.getOrders(query) as Map<String, dynamic>;
-    return PaginatedResponse.fromMap<dynamic>(response);
+    return PaginatedResponse.fromMap<StoreOrder>(response);
   }
 
   Future<BaseResponse<dynamic>> getOrder(String orderId, {bool? requery}) async {
@@ -448,7 +454,7 @@ class ShopperNetworkRepo {
   }
 
   Future<PaginatedResponse<PlatformOrder>> getPlatformOrders({
-    int page = 1,
+    int page = 0,
     int pageSize = 10,
   }) async {
     final query = {"page": page, "pageSize": pageSize};
@@ -477,14 +483,14 @@ class ShopperNetworkRepo {
     return BaseResponse.fromMap<dynamic>(response);
   }
 
-  Future<PaginatedResponse<dynamic>> getBookings({
-    int page = 1,
+  Future<PaginatedResponse<Booking>> getBookings({
+    int page = 0,
     int pageSize = 10,
   }) async {
     final query = {"page": page, "pageSize": pageSize};
 
     final response = await _client.getBookings(query) as Map<String, dynamic>;
-    return PaginatedResponse.fromMap<dynamic>(response);
+    return PaginatedResponse.fromMap<Booking>(response);
   }
 
   Future<BaseResponse<dynamic>> getBooking(
@@ -498,23 +504,25 @@ class ShopperNetworkRepo {
     return BaseResponse.fromMap<dynamic>(response);
   }
 
-  Future<BaseResponse<dynamic>> addBookingVisitor(
+  Future<BaseResponse<BookingVisitor>> addBookingVisitor(
     String bookingId, {
     required String name,
     required String phone,
-    required String email,
     required String dateTime,
+    String? email,
+    String? description,
   }) async {
     final body = {
       "name": name,
       "phone": phone,
-      "email": email,
       "date_time": dateTime,
+      if (email != null) "email": email,
+      if (description != null) "description": description,
     };
 
     final response =
         await _client.addBookingVisitor(bookingId, body) as Map<String, dynamic>;
-    return BaseResponse.fromMap<dynamic>(response);
+    return BaseResponse.fromMap<BookingVisitor>(response);
   }
 
   Future<BaseResponse<dynamic>> removeBookingVisitor(
@@ -534,14 +542,14 @@ class ShopperNetworkRepo {
     return BaseResponse.fromMap<dynamic>(response);
   }
 
-  Future<PaginatedResponse<dynamic>> getPayments({
-    int page = 1,
+  Future<PaginatedResponse<StorePayment>> getPayments({
+    int page = 0,
     int pageSize = 10,
   }) async {
     final query = {"page": page, "pageSize": pageSize};
 
     final response = await _client.getPayments(query) as Map<String, dynamic>;
-    return PaginatedResponse.fromMap<dynamic>(response);
+    return PaginatedResponse.fromMap<StorePayment>(response);
   }
 
   Future<BaseResponse<dynamic>> getPayment(String paymentId) async {
@@ -622,8 +630,8 @@ class ShopperNetworkRepo {
 
   // Affiliate Codes
 
-  Future<PaginatedResponse<dynamic>> getAffiliateCodes({
-    int page = 1,
+  Future<PaginatedResponse<AffiliateCode>> getAffiliateCodes({
+    int page = 0,
     int pageSize = 10,
     String? name,
   }) async {
@@ -635,12 +643,12 @@ class ShopperNetworkRepo {
 
     final response =
         await _client.getAffiliateCodes(query) as Map<String, dynamic>;
-    return PaginatedResponse.fromMap<dynamic>(response);
+    return PaginatedResponse.fromMap<AffiliateCode>(response);
   }
 
   Future<PaginatedResponse<dynamic>> getAffiliateCodeAffiliates(
     String affiliateCodeId, {
-    int page = 1,
+    int page = 0,
     int pageSize = 10,
   }) async {
     final query = {"page": page, "pageSize": pageSize};
@@ -659,18 +667,18 @@ class ShopperNetworkRepo {
 
   // Wallet and Bank Transfers
 
-  Future<PaginatedResponse<dynamic>> getWalletTransactions({
-    int page = 1,
+  Future<PaginatedResponse<WalletTransaction>> getWalletTransactions({
+    int page = 0,
     int pageSize = 10,
   }) async {
     final query = {"page": page, "pageSize": pageSize};
 
     final response =
         await _client.getWalletTransactions(query) as Map<String, dynamic>;
-    return PaginatedResponse.fromMap<dynamic>(response);
+    return PaginatedResponse.fromMap<WalletTransaction>(response);
   }
 
-  Future<BaseResponse<dynamic>> initiateBankTransfer({
+  Future<BaseResponse<BankTransferRequest>> initiateBankTransfer({
     required int amount,
     required String bankName,
     required String bankCode,
@@ -691,14 +699,16 @@ class ShopperNetworkRepo {
 
     final response =
         await _client.initiateBankTransfer(body) as Map<String, dynamic>;
-    return BaseResponse.fromMap<dynamic>(response);
+    return BaseResponse.fromMap<BankTransferRequest>(response);
   }
 
-  Future<BaseResponse<dynamic>> resendBankTransferOtp(String requestId) async {
+  Future<BaseResponse<BankTransferRequest>> resendBankTransferOtp(
+    String requestId,
+  ) async {
     final response =
         await _client.resendBankTransferOtp({"request_id": requestId})
             as Map<String, dynamic>;
-    return BaseResponse.fromMap<dynamic>(response);
+    return BaseResponse.fromMap<BankTransferRequest>(response);
   }
 
   Future<BaseResponse<dynamic>> validateBankTransfer({

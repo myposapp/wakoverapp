@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import 'package:provider/provider.dart';
 import '../../providers/app_provider.dart';
 import '../../theme/app_theme.dart';
@@ -17,9 +19,9 @@ class _RoleSelectScreenState extends State<RoleSelectScreen> {
     final provider = context.read<AppProvider>();
     provider.setRole(_selected);
     if (_selected == UserRole.merchant) {
-      provider.navigateTo('connect_store');
+      context.go(AppRoutes.connectStore);
     } else {
-      provider.navigateTo('buyer_marketplace');
+      context.go(AppRoutes.marketplace);
     }
   }
 

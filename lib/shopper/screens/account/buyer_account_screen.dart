@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wakover/router/app_routes.dart';
 import 'package:provider/provider.dart';
-import 'package:wakover/shopper/widgets/bottom_nav_bar.dart';
-import '../../providers/app_provider.dart';
-import '../../theme/app_theme.dart';
+import 'package:wakover/providers/app_provider.dart';
+import 'package:wakover/theme/app_theme.dart';
 
 class BuyerAccountScreen extends StatelessWidget {
   const BuyerAccountScreen({super.key});
@@ -129,7 +130,7 @@ class BuyerAccountScreen extends StatelessWidget {
                 _ProfileTile(
                   icon: Icons.settings_outlined,
                   label: 'Settings',
-                  onTap: () => provider.navigateTo('user_settings'),
+                  onTap: () => context.go(AppRoutes.userSettings),
                 ),
                 _ProfileTile(
                   icon: Icons.person_add_alt_1_outlined,
@@ -165,9 +166,6 @@ class BuyerAccountScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: const BuyerBottomNavBar(
-        activeRoute: 'buyer_account',
       ),
     );
   }
@@ -232,6 +230,7 @@ class BuyerAccountScreen extends StatelessWidget {
             onPressed: () {
               Navigator.of(dialogContext).pop();
               provider.logout();
+              context.go(AppRoutes.roleSelect);
               provider.showToast('Logged out.');
             },
             child: const Text('Log Out'),
@@ -263,6 +262,7 @@ class BuyerAccountScreen extends StatelessWidget {
             onPressed: () {
               Navigator.of(dialogContext).pop();
               provider.deleteAccount();
+              context.go(AppRoutes.splash);
               provider.showToast('Your account has been deleted.');
             },
             child: const Text('Delete'),
